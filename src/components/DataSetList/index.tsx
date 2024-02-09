@@ -2,10 +2,9 @@
 import { useState } from 'react';
 import { DataSet } from '@/types/dataSet';
 import Link from 'next/link';
-import { useDataSetContext } from "../../providers/DataSetProvider";
+import { useDataSetContext } from '../../providers/DataSetProvider';
 
-
-export default function DataSetList({ isLoading }: { isLoading: boolean}) {
+export default function DataSetList({ isLoading }: { isLoading: boolean }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { dataSetList, setDataSet } = useDataSetContext();
   const item = dataSetList?.find(item => item.name === selectedId);
@@ -17,7 +16,7 @@ export default function DataSetList({ isLoading }: { isLoading: boolean}) {
       <Link
         key={dataset.name}
         href={{
-          pathname: "/chart",
+          pathname: '/chart',
           query: {
             name: dataset.name,
           },
@@ -34,13 +33,11 @@ export default function DataSetList({ isLoading }: { isLoading: boolean}) {
         <p>{dataset.notes}</p>
       </Link>
     );
-  };
+  }
 
   return (
     <div>
-      <div>
-        {isLoading ? 'loading...' : dataSetList?.map(item => renderDataSet(item))}
-      </div>
+      <div>{isLoading ? 'loading...' : dataSetList?.map(item => renderDataSet(item))}</div>
     </div>
   );
-};
+}
