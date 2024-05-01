@@ -1,0 +1,23 @@
+.dataset-list {
+  :global {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+    .dataset {
+      padding: 1em;
+      margin-left: -1em;
+      p {
+        max-height: 8.5em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      border-radius: 4px;
+      transition: 300ms var(--cubic-bezier);
+      &:hover {
+        cursor: pointer;
+        background-color: light-dark(var(--indigoPale), var(--indigoDeep));
+      }
+    }
+  }
+}

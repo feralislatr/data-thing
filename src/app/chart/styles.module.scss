@@ -1,0 +1,27 @@
+.header {
+  :global {
+    background-color: var(--indigo);
+    img {
+      padding-left: 0.8rem;
+      width: auto;
+    }
+  }
+}
+
+.chart-container {
+  :global {
+    padding: 1rem;
+
+    .chart-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 20px;
+    }
+    .view-list {
+      display: flex;
+      gap: 16px;
+      margin: 8px 0 16px 0;
+    }
+  }
+}

@@ -1,20 +1,29 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DataSet } from '@/types/dataSet';
 import Link from 'next/link';
 import { useDataSetContext } from '../../providers/DataSetProvider';
+import styles from './styles.module.scss';
 
-export default function DataSetList({ isLoading }: { isLoading: boolean }) {
+export default function DataSetList({
+  isLoading,
+  dataSetList,
+}: {
+  isLoading: boolean;
+  dataSetList: DataSet[] | undefined;
+}) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { dataSetList, setDataSet } = useDataSetContext();
-  const item = dataSetList?.find(item => item.name === selectedId);
-
-  setDataSet(item);
+  const { setDataSet } = useDataSetContext();
+  useEffect(() => {
+    const item = dataSetList?.find(item => item.name === selectedId);
+    setDataSet(item);
+  }, [selectedId]);
 
   function renderDataSet(dataset: DataSet) {
     return (
       <Link
         key={dataset.name}
+        className="dataset"
         href={{
           pathname: '/chart',
           query: {
@@ -36,8 +45,8 @@ export default function DataSetList({ isLoading }: { isLoading: boolean }) {
   }
 
   return (
-    <div>
-      <div>{isLoading ? 'loading...' : dataSetList?.map(item => renderDataSet(item))}</div>
+    <div className={styles['dataset-list']}>
+      {isLoading ? 'loading...' : dataSetList?.map(item => renderDataSet(item))}
     </div>
   );
 }

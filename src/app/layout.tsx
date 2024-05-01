@@ -1,10 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Barlow, Barlow_Semi_Condensed, Space_Mono } from 'next/font/google';
 import './globals.css';
 import TanstackProvider from '../providers/TanstackProvider';
 import DataSetProvider from '../providers/DataSetProvider';
+import Theme from '@/providers/Theme';
 
-const inter = Inter({ subsets: ['latin'] });
+const barlow = Barlow({
+  subsets: ['latin'],
+  weight: ['300', '400', '600'],
+  variable: '--font-barlow',
+});
+const barlowcondensed = Barlow_Semi_Condensed({
+  subsets: ['latin'],
+  weight: ['300', '400', '600'],
+  variable: '--font-barlow-condensed',
+});
+const spacemono = Space_Mono({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-space-mono',
+});
 
 export const metadata: Metadata = {
   title: 'data thing',
@@ -16,12 +31,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // use dark theme between 6pm and 6am
+  const time = new Date().getHours();
+  const theme = time < 6 || time >= 18 ? 'dark' : 'light';
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <TanstackProvider>
-          <DataSetProvider>{children}</DataSetProvider>
-        </TanstackProvider>
+      <body
+        className={`${barlow.className} ${barlowcondensed.variable} ${spacemono.variable} ${theme}`}
+      >
+        <Theme mode={theme}>
+          <TanstackProvider>
+            <DataSetProvider>{children}</DataSetProvider>
+          </TanstackProvider>
+        </Theme>
       </body>
     </html>
   );

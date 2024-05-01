@@ -1,25 +1,29 @@
 'use client';
 
 import Image from 'next/image';
-import styles from './page.module.css';
+import styles from './page.module.scss';
 import { useDataSets } from '../hooks/use-datasets';
 import DataSetList from '../components/DataSetList';
-import { useDataSetContext } from '../providers/DataSetProvider';
 
 export default function Home() {
   const { dataSetList, isLoading } = useDataSets();
-  const { setDataSetList } = useDataSetContext();
-  setDataSetList(dataSetList);
   return (
     <main className={styles.main}>
-      <div>
-        <Image src="/logo.png" alt="data thing" width={400} height={100} priority />
-      </div>
+      <section className="title-panel">
+        <div className="title">
+          <Image src="/logo.png" alt="data thing" width={400} height={100} priority />
+          <p>
+            another chart app project
+            <br />
+            data from data.gov
+          </p>
+        </div>
+      </section>
 
-      <div className={styles.grid}>
+      <section className="dataset-panel">
         <h2>datasets</h2>
-        <DataSetList isLoading={isLoading} />
-      </div>
+        <DataSetList isLoading={isLoading} dataSetList={dataSetList} />
+      </section>
     </main>
   );
 }

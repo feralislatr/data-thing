@@ -1,0 +1,78 @@
+.main {
+  :global {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    section {
+      padding: 2rem;
+    }
+    .title-panel {
+      position: fixed;
+      height: 100vh;
+      // width: 464px;
+      background-color: #2d294d;
+    }
+
+    .title {
+      font-family: var(--font-barlow-condensed);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: #fefefe;
+    }
+
+    .dataset-panel {
+      padding: 3.4em 4em 1em 4em;
+      margin-left: 464px;
+      width: calc(100% - 464px);
+      right: 0;
+    }
+
+    .grid {
+      display: flex;
+      max-width: 100%;
+    }
+
+    /* Enable hover only on non-touch devices */
+    @media (hover: hover) and (pointer: fine) {
+    }
+
+    /* Mobile */
+    @media (max-width: 800px) {
+      flex-direction: column;
+      section {
+        padding: 1em;
+      }
+      img {
+        max-width: 200px;
+        height: 100%;
+      }
+      h2 {
+        margin-bottom: 0.5em;
+      }
+      .title-panel {
+        position: relative;
+        height: 100%;
+        width: 100vw;
+        background-color: #2d294d;
+      }
+
+      .title {
+        font-family: var(--font-barlow-condensed);
+        font-weight: 300;
+        letter-spacing: 0.08em;
+      }
+
+      .dataset-panel {
+        height: 100%;
+        padding: 1em;
+        margin: 0 auto;
+        width: 100vw;
+        right: 0;
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      background-color: #fff;
+    }
+  }
+}
