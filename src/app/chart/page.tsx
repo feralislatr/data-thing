@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useDataSetContext } from '@/providers/DataSetProvider';
 import { useDataSet } from '@/hooks/use-datasets';
 import { Chip, IconButton, Drawer } from '@mui/material';
@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import styles from './styles.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import { BarChartView } from '@/components/BarChartView';
+import formatTabularData from '@/utils/formatTabularData';
 
 const viewList = [
   {
@@ -26,20 +27,27 @@ const viewList = [
 ];
 
 export default function ChartPage({ searchParams }: { searchParams: { name: string } }) {
-  const { dataSet } = useDataSetContext();
+  const { dataSet, setDataColumns, setDataRows } = useDataSetContext();
   const { data, isLoading } = useDataSet(
     dataSet?.resources.find(item => item.format === 'JSON')?.url,
     dataSet?.name,
   );
   const [activeView, setActiveView] = useState({ type: 'table', value: 'default table' });
   const [openDrawer, setOpenDrawer] = useState(false);
+  // format data for table and bar chart
+  const { columns, rows } = useMemo(() => {
+    const { filteredColumns, filteredRows } = formatTabularData(data);
+    setDataColumns(columns);
+    setDataRows(rows);
+    return { columns: filteredColumns, rows: filteredRows };
+  }, [data]);
 
   const displayChart = () => {
     switch (activeView.type) {
       case 'bar':
         return <BarChartView viewId={activeView.value} data={data} />;
       case 'table':
-        return <TableView viewId={activeView.value} data={data} isLoading={isLoading} />;
+        return <TableView viewId={activeView.value} columns={columns} rows={rows} />;
       default:
         return <div>View not supported</div>;
     }
