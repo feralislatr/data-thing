@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Data } from '@/types/dataSet';
 import { v4 as uuidv4 } from 'uuid';
+import { useDataSetContext } from '@/providers/DataSetProvider';
 
 export function TableView({
   data,
@@ -12,10 +13,8 @@ export function TableView({
   isLoading: boolean;
   viewId: string;
 }) {
-  console.log({ viewId });
   const { columns, rows } = useMemo(() => {
     // first find number of columns where id = -1 (unique to electric vehicle dataset)
-    if (isLoading) return { columns: [], rows: [] };
     let filteredColumns = [];
     let hiddenCount = 0;
     for (let i = 0; i < data?.meta?.view?.columns.length; i++) {
@@ -23,7 +22,7 @@ export function TableView({
         hiddenCount++;
       } else {
         filteredColumns.push({
-          field: data.meta.view.columns[i].id.toString(),
+          field: data.meta.view.columns[i].fieldName,
           headerName: data.meta.view.columns[i].name,
           type: data.meta.view.columns[i].dataTypeName || 'string',
         });
@@ -43,10 +42,11 @@ export function TableView({
         ...row,
       };
     }
-
     return { columns: filteredColumns, rows: filteredRows };
-  }, [data, isLoading]);
+  }, [data]);
+  const { setDataColumns, setDataRows } = useDataSetContext();
+  setDataColumns(columns);
+  setDataRows(rows);
 
-  if (isLoading) return <div>Loading</div>;
   return <DataGrid rows={rows} columns={columns} />;
 }
