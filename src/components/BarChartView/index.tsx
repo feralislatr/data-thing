@@ -2,15 +2,23 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { Data } from '@/types/dataSet';
 import { useDataSetContext } from '@/providers/DataSetProvider';
 import { useMemo } from 'react';
+import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 
-export function BarChartView({ data, viewId }: { data: Data; viewId: string }) {
-  const { dataColumns, dataRows } = useDataSetContext();
-  const indVariable = dataColumns[5]; // hardcoding model year column
+export function BarChartView({
+  viewId,
+  columns,
+  rows,
+}: {
+  viewId: string;
+  columns: GridColDef[];
+  rows: GridRowsProp[];
+}) {
+  const indVariable = columns[5]; // hardcoding model year column
   const { dataset } = useMemo(() => {
     // yAxis
     const map = new Map();
-    for (let i = 0; i < dataRows.length; i++) {
-      const datum = dataRows[i][indVariable.field];
+    for (let i = 0; i < rows.length; i++) {
+      const datum = rows[i][indVariable.field];
       if (map.has(datum)) {
         let temp = map.get(datum);
         map.set(datum, (temp += 1));
@@ -26,7 +34,7 @@ export function BarChartView({ data, viewId }: { data: Data; viewId: string }) {
     }));
 
     return { dataset };
-  }, [indVariable, dataRows]);
+  }, [indVariable, rows]);
 
   return (
     <BarChart
