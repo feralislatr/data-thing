@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Barlow, Barlow_Semi_Condensed, Space_Mono } from 'next/font/google';
 import './globals.css';
-import TanstackProvider from '../providers/TanstackProvider';
-import DataSetProvider from '../providers/DataSetProvider';
+import TanstackProvider from '@/providers/TanstackProvider';
 import Theme from '@/providers/Theme';
 
 const barlow = Barlow({
@@ -40,9 +39,7 @@ export default function RootLayout({
         className={`${barlow.className} ${barlowcondensed.variable} ${spacemono.variable} ${theme}`}
       >
         <Theme mode={theme}>
-          <TanstackProvider>
-            <DataSetProvider>{children}</DataSetProvider>
-          </TanstackProvider>
+          <TanstackProvider>{children}</TanstackProvider>
         </Theme>
       </body>
     </html>

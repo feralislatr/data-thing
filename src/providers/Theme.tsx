@@ -18,7 +18,9 @@ const Theme = props => {
                 gap: 8,
                 textTransform: 'none',
                 fontWeight: 'bold',
+                fontSize: 16,
                 lineHeight: 1,
+                color: theme.palette[ownerState.color].contrastText,
                 '&.Mui-disabled': {
                   opacity: 0.4,
                   color: theme.palette[ownerState.color].main,
@@ -102,6 +104,37 @@ const Theme = props => {
             styleOverrides: {
               root: {
                 backgroundColor: mode === 'light' ? colors.white : colors.offBlack,
+                color: mode === 'light' ? colors.darkGray : colors.lightGray,
+              },
+            },
+          },
+          MuiInput: {
+            styleOverrides: {
+              root: {
+                borderBottomColor: colors.lightGray,
+                '&:before': {
+                  borderBottomColor: mode === 'light' ? colors.darkGray : colors.lightGray,
+                },
+              },
+            },
+          },
+          MuiInputBase: {
+            styleOverrides: {
+              root: {
+                marginBottom: 32,
+                fieldset: {
+                  borderColor: mode === 'light' ? colors.darkGray : colors.lightGray,
+                },
+                svg: {
+                  color: mode === 'light' ? colors.darkGray : colors.lightGray,
+                },
+              },
+            },
+          },
+          MuiInputLabel: {
+            styleOverrides: {
+              root: {
+                color: mode === 'light' ? colors.darkGray : colors.lightGray,
               },
             },
           },
@@ -111,14 +144,15 @@ const Theme = props => {
             ? {
                 primary: {
                   main: colors.indigo,
-                  dark: colors.indigoDeep,
-                  contrastText: colors.lightGray,
                   light: colors.indigoPale,
+                  dark: colors.indigoDeep,
+                  contrastText: colors.indigo,
                 },
                 secondary: {
                   main: colors.mint,
                   light: colors.mintLight,
                   dark: colors.mintDark,
+                  contrastText: colors.white,
                 },
                 text: {
                   primary: colors.darkGray,
@@ -129,15 +163,16 @@ const Theme = props => {
               }
             : {
                 primary: {
-                  main: colors.indigo,
-                  dark: colors.indigoDeep,
-                  contrastText: colors.mint,
-                  light: colors.indigoLight,
-                },
-                secondary: {
                   main: colors.mint,
                   light: colors.mintLight,
+                  contrastText: colors.mint,
                   dark: colors.mintDark,
+                },
+                secondary: {
+                  main: colors.indigo,
+                  dark: colors.indigoDeep,
+                  contrastText: colors.white,
+                  light: colors.indigoLight,
                 },
                 text: {
                   primary: colors.lightGray,

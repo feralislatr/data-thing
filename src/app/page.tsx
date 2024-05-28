@@ -1,12 +1,8 @@
-'use client';
-
 import Image from 'next/image';
 import styles from './page.module.scss';
-import { useDataSets } from '../hooks/use-datasets';
-import DataSetList from '../components/DataSetList';
+import DataSetList from '@/components/DataSetList';
 
 export default function Home() {
-  const { dataSetList, isLoading } = useDataSets();
   return (
     <main className={styles.main}>
       <section className="title-panel">
@@ -19,10 +15,9 @@ export default function Home() {
           </p>
         </div>
       </section>
-
       <section className="dataset-panel">
         <h2>datasets</h2>
-        <DataSetList isLoading={isLoading} dataSetList={dataSetList} />
+        <DataSetList />
       </section>
     </main>
   );

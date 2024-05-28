@@ -1,6 +1,4 @@
 import { BarChart } from '@mui/x-charts/BarChart';
-import { Data } from '@/types/dataSet';
-import { useDataSetContext } from '@/providers/DataSetProvider';
 import { useMemo } from 'react';
 import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 
@@ -8,12 +6,14 @@ export function BarChartView({
   viewId,
   columns,
   rows,
+  configData,
 }: {
   viewId: string;
   columns: GridColDef[];
   rows: GridRowsProp[];
+  configData: any; // TODO
 }) {
-  const indVariable = columns[5]; // hardcoding model year column
+  const indVariable = configData.params.selectedColumn; // hardcoding model year column
   const { dataset } = useMemo(() => {
     // yAxis
     const map = new Map();
@@ -38,9 +38,9 @@ export function BarChartView({
 
   return (
     <BarChart
-      yAxis={[{ label: '# of Items' }]}
+      yAxis={[{ label: `# of ${configData.params.yAxisUnit}` }]}
       xAxis={[{ scaleType: 'band', dataKey: 'label', label: indVariable.headerName }]}
-      series={[{ dataKey: 'value', label: '# of Items' }]}
+      series={[{ dataKey: 'value', label: `# of ${configData.params.yAxisUnit}` }]}
       dataset={dataset}
       width={600}
       height={400}
