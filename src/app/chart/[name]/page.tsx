@@ -100,7 +100,7 @@ export default function ChartPage({ params }: { params: { name: string } }) {
       <main className={styles['chart-container']}>
         <div className="chart-title">
           <h3>{dataSetItem?.title || 'title'}</h3>
-          <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('edit')}>
+          <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('view')}>
             <DensityMediumIcon />
           </IconButton>
         </div>
@@ -124,6 +124,7 @@ export default function ChartPage({ params }: { params: { name: string } }) {
               onClose={() => setDrawerMode(false)}
               columnOptions={filteredColumns}
               viewTypes={viewTypes}
+              configData={drawerMode === 'view' ? activeView : null}
               onAddNewView={configData => addNewView(configData)}
               mode={drawerMode}
             />

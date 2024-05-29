@@ -13,7 +13,7 @@ const Theme = props => {
             styleOverrides: {
               root: ({ ownerState }) => ({
                 padding: '6px 16px 7px 16px',
-                borderRadius: 2,
+                borderRadius: 4,
                 height: 32,
                 gap: 8,
                 textTransform: 'none',

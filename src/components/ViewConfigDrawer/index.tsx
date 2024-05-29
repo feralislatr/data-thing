@@ -9,13 +9,14 @@ import {
   FormControl,
 } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ViewConfigDrawer({
   open,
   onClose,
   columnOptions,
   viewTypes,
+  configData,
   onAddNewView,
   mode,
 }: {
@@ -23,6 +24,7 @@ export default function ViewConfigDrawer({
   onClose: () => void;
   columnOptions: GridColDef[];
   viewTypes: { type: string; name: string }[];
+  configData: { type: string; value: string; name: string; params: any };
   onAddNewView: ({
     viewName,
     viewType,
@@ -34,8 +36,24 @@ export default function ViewConfigDrawer({
     displayColumnId: string;
     yAxisUnit: string;
   }) => void;
-  mode: 'new' | 'edit' | boolean;
+  mode: 'new' | 'view' | boolean;
 }) {
+  useEffect(() => {
+    if (mode === 'view') {
+      if (configData) {
+        setViewName(configData.name);
+        setViewType(configData.type);
+        setdisplayColumnId(configData.value);
+        setYAxisUnit(configData.params.yAxisUnit);
+      }
+    } else {
+      setViewName('');
+      setViewType('');
+      setdisplayColumnId('');
+      setYAxisUnit('');
+    }
+  }, [mode]);
+
   const [viewName, setViewName] = useState('');
   const [viewType, setViewType] = useState('');
   const [displayColumnId, setdisplayColumnId] = useState('');
@@ -62,21 +80,9 @@ export default function ViewConfigDrawer({
     </MenuItem>
   ));
 
-  // TODO
-  const renderEditMode = () => {};
-
-  const renderViewMode = () => {};
-
-  return (
-    <Drawer anchor={'right'} open={open} onClose={onClose}>
-      <Box
-        component="form"
-        sx={{
-          width: '40vw',
-          minWidth: 250,
-          padding: '4rem 1rem 1rem',
-        }}
-      >
+  const renderEditMode = () => {
+    return (
+      <>
         <h3>{mode === 'new' ? 'Add New View' : 'View Config'}</h3>
         <TextField
           label="View Name"
@@ -85,6 +91,7 @@ export default function ViewConfigDrawer({
           value={viewName}
           sx={{ marginTop: 4 }}
           onChange={e => setViewName(e.target.value)}
+          disabled={mode === 'view'}
         />
         <FormControl sx={{ width: '100%' }}>
           <InputLabel id="view-type-label">View Type</InputLabel>
@@ -95,6 +102,7 @@ export default function ViewConfigDrawer({
             fullWidth
             value={viewType}
             onChange={e => setViewType(e.target.value)}
+            disabled={mode === 'view'}
           >
             {formatViewTypes}
           </Select>
@@ -108,27 +116,84 @@ export default function ViewConfigDrawer({
             fullWidth
             value={displayColumnId}
             onChange={e => setdisplayColumnId(e.target.value)}
+            disabled={mode === 'view'}
           >
             {formatdisplayColumnIds}
           </Select>
         </FormControl>
-
         <TextField
           label="Y-Axis Unit Name"
           variant="outlined"
           fullWidth
           value={yAxisUnit}
           onChange={e => setYAxisUnit(e.target.value)}
+          disabled={mode === 'view'}
         />
-        <Button
-          sx={{ height: 60 }}
-          variant="contained"
+        {mode === 'new' && (
+          <Button
+            sx={{ height: 60 }}
+            variant="contained"
+            fullWidth
+            color="secondary"
+            onClick={handleSubmit}
+          >
+            Add View
+          </Button>
+        )}
+      </>
+    );
+  };
+
+  const renderViewMode = () => {
+    return (
+      <>
+        <h3>{mode === 'new' ? 'Add New View' : 'View Config'}</h3>
+        <TextField
+          label="View Name"
+          variant="outlined"
           fullWidth
-          color="secondary"
-          onClick={handleSubmit}
-        >
-          Add View
-        </Button>
+          value={viewName}
+          sx={{ marginTop: 4 }}
+          onChange={e => setViewName(e.target.value)}
+          disabled={mode === 'view'}
+        />
+        <FormControl sx={{ width: '100%' }}>
+          <InputLabel id="view-type-label">View Type</InputLabel>
+          <Select
+            label="View Type"
+            labelId="view-type-label"
+            variant="outlined"
+            fullWidth
+            value={viewType}
+            onChange={e => setViewType(e.target.value)}
+            disabled={mode === 'view'}
+          >
+            {formatViewTypes}
+          </Select>
+        </FormControl>
+        {configData.type !== 'table' && (
+          <>
+            <InputLabel id="display-column-label">Display Column</InputLabel>
+            <p>{displayColumnId}</p>
+            <InputLabel id="y-axis-label">Y-Axis Unit Name</InputLabel>
+            <p>{yAxisUnit}</p>
+          </>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <Drawer anchor={'right'} open={open} onClose={onClose}>
+      <Box
+        component="form"
+        sx={{
+          width: '40vw',
+          minWidth: 250,
+          padding: '4rem 1rem 1rem',
+        }}
+      >
+        {mode === 'view' ? renderViewMode() : renderEditMode()}
       </Box>
     </Drawer>
   );
