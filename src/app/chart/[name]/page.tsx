@@ -10,13 +10,13 @@ import ErrorBoundary from '@/providers/ErrorBoundary';
 import { BarChartView } from '@/components/BarChartView';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
 import { v4 as uuidv4 } from 'uuid';
+import { ViewConfig } from '@/types/viewConfig';
 
-const initialViewList = [
+const initialViewList: ViewConfig[] = [
   {
     id: '-1',
     type: 'table',
     value: 'default table',
-    params: {},
     name: 'Table',
   },
 ];
@@ -35,19 +35,24 @@ const viewTypes = [
 export default function ChartPage({ params }: { params: { name: string } }) {
   // get dataSet data from url param
   const { dataSetList } = useDataSetList();
-  let dataSetItem = null;
-  dataSetItem = dataSetList?.find(dataSet => dataSet.name === params.name);
+  const dataSetItem = dataSetList?.find(dataSet => dataSet.name === params.name);
   const { data, filteredColumns, filteredRows, isLoading } = useDataSet(
-    dataSetItem?.resources.find(item => item.format === 'JSON')?.url,
+    dataSetItem?.resources.find(item => item.format === 'JSON')?.url || '',
     params.name,
   );
   const [activeView, setActiveView] = useState(initialViewList[0]);
-  const [drawerMode, setDrawerMode] = useState(undefined);
-  const [viewList, setViewList] = useState(initialViewList);
+  const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined);
+  const [viewList, setViewList] = useState<ViewConfig[]>(initialViewList);
 
-  const addNewView = configData => {
+  const addNewView = (configData: {
+    viewName: string;
+    viewType: string;
+    displayColumnId: string;
+    yAxisUnit: string;
+  }) => {
     const selectedColumn = filteredColumns.find(col => col.field === configData.displayColumnId);
 
+    // formats into ViewConfig
     setViewList(state => [
       ...state,
       {
@@ -83,7 +88,7 @@ export default function ChartPage({ params }: { params: { name: string } }) {
     }
   };
 
-  const viewButton = view => (
+  const renderViewButton = (view: ViewConfig) => (
     <Chip
       key={view.id}
       variant={view.id === activeView.id ? 'filled' : 'outlined'}
@@ -105,7 +110,7 @@ export default function ChartPage({ params }: { params: { name: string } }) {
           </IconButton>
         </div>
         <div className="view-list">
-          {viewList.map(view => viewButton(view))}
+          {viewList.map(view => renderViewButton(view))}
           <Chip
             variant="outlined"
             color="primary"
@@ -121,10 +126,10 @@ export default function ChartPage({ params }: { params: { name: string } }) {
             {displayChart()}
             <ViewConfigDrawer
               open={Boolean(drawerMode)}
-              onClose={() => setDrawerMode(false)}
+              onClose={() => setDrawerMode(undefined)}
               columnOptions={filteredColumns}
               viewTypes={viewTypes}
-              configData={drawerMode === 'view' ? activeView : null}
+              viewConfig={drawerMode === 'view' ? activeView : null}
               onAddNewView={configData => addNewView(configData)}
               mode={drawerMode}
             />

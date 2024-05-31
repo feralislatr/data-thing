@@ -1,5 +1,5 @@
 import { DataSet, Data } from '@/types/dataSet';
-import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
 import formatTabularData from '@/utils/formatTabularData';
 import getData from '@/utils/get-data';
@@ -23,7 +23,7 @@ export function useDataSet(
 ): {
   data: Data | undefined;
   filteredColumns: GridColDef[];
-  filteredRows: GridRowsProp[];
+  filteredRows: GridValidRowModel[];
   isLoading: boolean;
 } {
   const { data, isLoading } = useQuery<any>({

@@ -1,6 +1,6 @@
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useMemo } from 'react';
-import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
 export function BarChartView({
   viewId,
@@ -10,7 +10,7 @@ export function BarChartView({
 }: {
   viewId: string;
   columns: GridColDef[];
-  rows: GridRowsProp[];
+  rows: GridValidRowModel[];
   configData: any; // TODO
 }) {
   const indVariable = configData.params.selectedColumn; // hardcoding model year column

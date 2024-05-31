@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
 export function TableView({
   viewId,
@@ -7,7 +7,7 @@ export function TableView({
 }: {
   viewId: string;
   columns: GridColDef[];
-  rows: GridRowsProp[];
+  rows: GridValidRowModel[];
 }) {
   return <DataGrid key={`data-grid-${viewId}`} rows={rows} columns={columns} />;
 }

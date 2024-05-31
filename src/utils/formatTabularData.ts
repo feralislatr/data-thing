@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Data } from '@/types/dataSet';
-import { GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
 export default function formatTabularData(data: Data): {
   filteredColumns: GridColDef[];
-  filteredRows: GridRowsProp[];
+  filteredRows: GridValidRowModel[];
 } {
   // first find number of columns where id = -1
   let filteredColumns = [];
@@ -16,7 +16,7 @@ export default function formatTabularData(data: Data): {
       filteredColumns.push({
         field: data.meta.view.columns[i].fieldName,
         headerName: data.meta.view.columns[i].name,
-        type: data.meta.view.columns[i].dataTypeName || 'string',
+        dataType: data.meta.view.columns[i].dataTypeName || 'string',
       });
     }
   }
@@ -24,7 +24,7 @@ export default function formatTabularData(data: Data): {
   // map over each record -- limiting to 100 for performance
   for (let i = 0; i < 100; i++) {
     let datum = data?.data[i];
-    let row = {};
+    let row: { [key: string]: string } = {};
     for (let j = 0; j < filteredColumns.length; j++) {
       row[filteredColumns[j].field] = datum[hiddenCount + j];
     }

@@ -1,17 +1,17 @@
 'use client';
 import { useMemo } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
 import colors from './theme-colors';
 
-const Theme = props => {
+const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => {
   const { children, mode } = props;
-  const theme = useMemo(
+  const theme: ThemeOptions = useMemo(
     () =>
       createTheme({
         components: {
           MuiButton: {
             styleOverrides: {
-              root: ({ ownerState }) => ({
+              root: {
                 padding: '6px 16px 7px 16px',
                 borderRadius: 4,
                 height: 32,
@@ -20,16 +20,14 @@ const Theme = props => {
                 fontWeight: 'bold',
                 fontSize: 16,
                 lineHeight: 1,
-                color: theme.palette[ownerState.color].contrastText,
                 '&.Mui-disabled': {
                   opacity: 0.4,
-                  color: theme.palette[ownerState.color].main,
                 },
                 '&.MuiButton-endIcon': {
                   fontSize: 14,
                   ml: 0,
                 },
-              }),
+              },
             },
           },
           MuiChip: {

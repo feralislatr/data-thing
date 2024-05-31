@@ -1,3 +1,9 @@
+export type Resource = {
+  format: string;
+  url: string;
+  describedBy: string;
+};
+
 export type DataSet = {
   id: string;
   name: string;
@@ -5,13 +11,7 @@ export type DataSet = {
   notes: string;
   metadata_modified: string;
   maintainer: string;
-  resources: [
-    {
-      format: string;
-      url: string;
-      describedBy: string;
-    },
-  ];
+  resources: Resource[];
 };
 
 export type Column = {

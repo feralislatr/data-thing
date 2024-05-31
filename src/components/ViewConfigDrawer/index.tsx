@@ -1,3 +1,4 @@
+import { ViewConfig } from '@/types/viewConfig';
 import {
   Drawer,
   Box,
@@ -16,7 +17,7 @@ export default function ViewConfigDrawer({
   onClose,
   columnOptions,
   viewTypes,
-  configData,
+  viewConfig,
   onAddNewView,
   mode,
 }: {
@@ -24,7 +25,7 @@ export default function ViewConfigDrawer({
   onClose: () => void;
   columnOptions: GridColDef[];
   viewTypes: { type: string; name: string }[];
-  configData: { type: string; value: string; name: string; params: any };
+  viewConfig: ViewConfig | null;
   onAddNewView: ({
     viewName,
     viewType,
@@ -36,15 +37,17 @@ export default function ViewConfigDrawer({
     displayColumnId: string;
     yAxisUnit: string;
   }) => void;
-  mode: 'new' | 'view' | boolean;
+  mode: 'new' | 'view' | undefined;
 }) {
   useEffect(() => {
     if (mode === 'view') {
-      if (configData) {
-        setViewName(configData.name);
-        setViewType(configData.type);
-        setdisplayColumnId(configData.value);
-        setYAxisUnit(configData.params.yAxisUnit);
+      if (viewConfig) {
+        setViewName(viewConfig.name);
+        setViewType(viewConfig.type);
+        setdisplayColumnId(viewConfig.value);
+        if (viewConfig?.params?.yAxisUnit) {
+          setYAxisUnit(viewConfig.params.yAxisUnit);
+        }
       }
     } else {
       setViewName('');
@@ -171,12 +174,30 @@ export default function ViewConfigDrawer({
             {formatViewTypes}
           </Select>
         </FormControl>
-        {configData.type !== 'table' && (
+        {viewConfig?.type !== 'table' && (
           <>
-            <InputLabel id="display-column-label">Display Column</InputLabel>
-            <p>{displayColumnId}</p>
-            <InputLabel id="y-axis-label">Y-Axis Unit Name</InputLabel>
-            <p>{yAxisUnit}</p>
+            <FormControl sx={{ width: '100%' }}>
+              <InputLabel id="display-column-label">Display Column</InputLabel>
+              <Select
+                label="Display Column"
+                labelId="display-column-label"
+                variant="outlined"
+                fullWidth
+                value={displayColumnId}
+                onChange={e => setdisplayColumnId(e.target.value)}
+                disabled={mode === 'view'}
+              >
+                {formatdisplayColumnIds}
+              </Select>
+            </FormControl>
+            <TextField
+              label="Y-Axis Unit Name"
+              variant="outlined"
+              fullWidth
+              value={yAxisUnit}
+              onChange={e => setYAxisUnit(e.target.value)}
+              disabled={mode === 'view'}
+            />
           </>
         )}
       </>
