@@ -6,22 +6,23 @@ import getData from '@/utils/get-data';
 import getDataSets from '@/utils/get-datasets';
 
 export function useDataSetList(): {
-  dataSetList: DataSet[] | undefined;
+  dataSetList: DataSet[];
   isLoading: boolean;
 } {
   const { data, isLoading } = useQuery<any>({
     queryKey: ['dataSets'],
     queryFn: getDataSets,
     meta: { persist: true },
+    initialData: [],
   });
   return { dataSetList: data, isLoading };
 }
 
 export function useDataSet(
-  url: string,
+  url: URL | null,
   name: string,
 ): {
-  data: Data | undefined;
+  data: Data;
   filteredColumns: GridColDef[];
   filteredRows: GridValidRowModel[];
   isLoading: boolean;

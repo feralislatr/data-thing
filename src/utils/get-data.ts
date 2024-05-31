@@ -1,4 +1,5 @@
-export default async function getData(url: string) {
+export default async function getData(url: URL | null) {
+  if (!url) return null;
   return fetch(url, {
     method: 'GET',
   })

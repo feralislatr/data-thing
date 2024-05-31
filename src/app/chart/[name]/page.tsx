@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useDataSet, useDataSetList } from '@/hooks/use-datasets';
 import { Chip, IconButton } from '@mui/material';
 import { TableView } from '@/components/TableView';
@@ -11,6 +11,8 @@ import { BarChartView } from '@/components/BarChartView';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
 import { v4 as uuidv4 } from 'uuid';
 import { ViewConfig } from '@/types/viewConfig';
+import { DataSet } from '@/types/dataSet';
+import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
 const initialViewList: ViewConfig[] = [
   {
@@ -31,13 +33,65 @@ const viewTypes = [
     name: 'Bar Chart',
   },
 ];
+// read the rest of the tanstack notes
+// refresh is broken here bc datasetlist is null
+const getDataSetItem = (dataSetList: DataSet[], name: string) => {
+  return dataSetList.find(dataSet => dataSet.name === name);
+};
+
+const getDataSetResourceUrl = (dataSetItem?: DataSet) => {
+  if (!dataSetItem) return null;
+  const resource = dataSetItem.resources.find(({ format }) => format === 'JSON');
+  return resource ? new URL(resource.url) : null;
+};
+
+const renderViewButton = (
+  view: ViewConfig,
+  activeView: ViewConfig,
+  setActiveView: Dispatch<SetStateAction<ViewConfig>>,
+) => (
+  <Chip
+    key={view.id}
+    variant={view.id === activeView.id ? 'filled' : 'outlined'}
+    color="primary"
+    onClick={() => {
+      setActiveView(view);
+    }}
+    disabled={view.id === activeView.id}
+    label={view.name}
+  />
+);
+
+const renderChart = (
+  activeView: ViewConfig,
+  filteredColumns: GridColDef[],
+  filteredRows: GridValidRowModel[],
+) => {
+  switch (activeView.type) {
+    case 'bar':
+      return (
+        <BarChartView
+          viewId={activeView.value}
+          columns={filteredColumns}
+          rows={filteredRows}
+          configData={activeView}
+        />
+      );
+    case 'table':
+      return <TableView viewId={activeView.value} columns={filteredColumns} rows={filteredRows} />;
+    default:
+      return <div>View not supported</div>;
+  }
+};
 
 export default function ChartPage({ params }: { params: { name: string } }) {
   // get dataSet data from url param
   const { dataSetList } = useDataSetList();
-  const dataSetItem = dataSetList?.find(dataSet => dataSet.name === params.name);
+  const dataSetItem = getDataSetItem(dataSetList, params.name);
+  const dataSetResourceUrl = getDataSetResourceUrl(dataSetItem);
+
   const { data, filteredColumns, filteredRows, isLoading } = useDataSet(
-    dataSetItem?.resources.find(item => item.format === 'JSON')?.url || '',
+    dataSetResourceUrl,
     params.name,
   );
   const [activeView, setActiveView] = useState(initialViewList[0]);
@@ -68,49 +122,17 @@ export default function ChartPage({ params }: { params: { name: string } }) {
     ]);
   };
 
-  const displayChart = () => {
-    switch (activeView.type) {
-      case 'bar':
-        return (
-          <BarChartView
-            viewId={activeView.value}
-            columns={filteredColumns}
-            rows={filteredRows}
-            configData={activeView}
-          />
-        );
-      case 'table':
-        return (
-          <TableView viewId={activeView.value} columns={filteredColumns} rows={filteredRows} />
-        );
-      default:
-        return <div>View not supported</div>;
-    }
-  };
-
-  const renderViewButton = (view: ViewConfig) => (
-    <Chip
-      key={view.id}
-      variant={view.id === activeView.id ? 'filled' : 'outlined'}
-      color="primary"
-      onClick={() => {
-        setActiveView(view);
-      }}
-      disabled={view.id === activeView.id}
-      label={view.name}
-    />
-  );
   return (
     <>
-      <main className={styles['chart-container']}>
+      <main suppressHydrationWarning className={styles['chart-container']}>
         <div className="chart-title">
-          <h3>{dataSetItem?.title || 'title'}</h3>
+          <h3>{dataSetItem?.title}</h3>
           <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('view')}>
             <DensityMediumIcon />
           </IconButton>
         </div>
         <div className="view-list">
-          {viewList.map(view => renderViewButton(view))}
+          {viewList.map(view => renderViewButton(view, activeView, setActiveView))}
           <Chip
             variant="outlined"
             color="primary"
@@ -123,14 +145,14 @@ export default function ChartPage({ params }: { params: { name: string } }) {
         ) : (
           <ErrorBoundary>
             <p>{data?.meta?.view?.description}</p>
-            {displayChart()}
+            {renderChart(activeView, filteredColumns, filteredRows)}
             <ViewConfigDrawer
               open={Boolean(drawerMode)}
               onClose={() => setDrawerMode(undefined)}
               columnOptions={filteredColumns}
               viewTypes={viewTypes}
               viewConfig={drawerMode === 'view' ? activeView : null}
-              onAddNewView={configData => addNewView(configData)}
+              onAddNewView={addNewView}
               mode={drawerMode}
             />
           </ErrorBoundary>
