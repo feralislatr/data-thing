@@ -33,8 +33,6 @@ const viewTypes = [
     name: 'Bar Chart',
   },
 ];
-// read the rest of the tanstack notes
-// refresh is broken here bc datasetlist is null
 const getDataSetItem = (dataSetList: DataSet[], name: string) => {
   return dataSetList.find(dataSet => dataSet.name === name);
 };
@@ -124,7 +122,7 @@ export default function ChartPage({ params }: { params: { name: string } }) {
 
   return (
     <>
-      <main suppressHydrationWarning className={styles['chart-container']}>
+      <main className={styles['chart-container']}>
         <div className="chart-title">
           <h3>{dataSetItem?.title}</h3>
           <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('view')}>
