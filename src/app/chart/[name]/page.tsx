@@ -64,22 +64,19 @@ const renderChart = (
   activeView: ViewConfig,
   filteredColumns: GridColDef[],
   filteredRows: GridValidRowModel[],
-) => {
-  switch (activeView.type) {
-    case 'bar':
-      return (
-        <BarChartView
-          viewId={activeView.value}
-          columns={filteredColumns}
-          rows={filteredRows}
-          configData={activeView}
-        />
-      );
-    case 'table':
-      return <TableView viewId={activeView.value} columns={filteredColumns} rows={filteredRows} />;
-    default:
-      return <div>View not supported</div>;
-  }
+): React.ReactNode => {
+  return {
+    bar: (
+      <BarChartView
+        viewId={activeView.value}
+        columns={filteredColumns}
+        rows={filteredRows}
+        configData={activeView}
+      />
+    ),
+    table: <TableView viewId={activeView.value} columns={filteredColumns} rows={filteredRows} />,
+    default: <div>View not supported</div>,
+  }[activeView.type];
 };
 
 export default function ChartPage({ params }: { params: { name: string } }) {
