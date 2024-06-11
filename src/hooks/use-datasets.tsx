@@ -13,7 +13,7 @@ export function useDataSetList(): {
     queryKey: ['dataSets'],
     queryFn: getDataSets,
     meta: { persist: true },
-    // initialData: getDataSets,
+    placeholderData: [],
   });
   return { dataSetList: data, isLoading };
 }

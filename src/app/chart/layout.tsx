@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './styles.module.scss';
 
-export default function ChartHeader({
+export default function ChartLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
