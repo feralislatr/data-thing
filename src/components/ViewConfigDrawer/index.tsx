@@ -161,7 +161,9 @@ export default function ViewConfigDrawer({
           disabled={mode === 'view'}
         />
         <FormControl sx={{ width: '100%' }}>
-          <InputLabel id="view-type-label">View Type</InputLabel>
+          <InputLabel id="view-type-label" disabled={mode === 'view'}>
+            View Type
+          </InputLabel>
           <Select
             label="View Type"
             labelId="view-type-label"
@@ -177,7 +179,9 @@ export default function ViewConfigDrawer({
         {viewConfig?.type !== 'table' && (
           <>
             <FormControl sx={{ width: '100%' }}>
-              <InputLabel id="display-column-label">Display Column</InputLabel>
+              <InputLabel id="display-column-label" disabled={mode === 'view'}>
+                Display Column
+              </InputLabel>
               <Select
                 label="Display Column"
                 labelId="display-column-label"

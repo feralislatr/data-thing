@@ -126,6 +126,43 @@ const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => 
                 svg: {
                   color: mode === 'light' ? colors.darkGray : colors.lightGray,
                 },
+                '&.Mui-disabled': {
+                  svg: {
+                    // styles for dark mode only
+                    ...(mode === 'dark' && {
+                      color: colors.lightGray,
+                      filter: 'brightness(0.5)',
+                    }),
+                  },
+                  input: {
+                    color: mode === 'light' ? colors.darkGray : colors.lightGray,
+                    ...(mode === 'dark' && {
+                      filter: 'brightness(0.5)',
+                      '-webkit-text-fill-color': 'inherit',
+                    }),
+                  },
+                  '&.MuiOutlinedInput-root': {
+                    ...(mode === 'dark' && {
+                      color: colors.lightGray,
+                    }),
+                  },
+                  fieldset: {
+                    '&.MuiOutlinedInput-notchedOutline': {
+                      ...(mode === 'dark' && {
+                        borderColor: colors.lightGray,
+                        filter: 'brightness(0.5)',
+                      }),
+                    },
+                  },
+                },
+              },
+              input: {
+                '&.MuiOutlinedInput-input.Mui-disabled': {
+                  ...(mode === 'dark' && {
+                    filter: 'brightness(0.5)',
+                    '-webkit-text-fill-color': 'inherit',
+                  }),
+                },
               },
             },
           },
@@ -133,6 +170,12 @@ const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => 
             styleOverrides: {
               root: {
                 color: mode === 'light' ? colors.darkGray : colors.lightGray,
+                '&.Mui-disabled': {
+                  ...(mode === 'dark' && {
+                    color: colors.lightGray,
+                    filter: 'brightness(0.5)',
+                  }),
+                },
               },
             },
           },
