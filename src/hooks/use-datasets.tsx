@@ -12,7 +12,6 @@ export function useDataSetList(): {
   const { data, isLoading } = useQuery<any>({
     queryKey: ['dataSets'],
     queryFn: getDataSets,
-    meta: { persist: true },
     placeholderData: [],
   });
   return { dataSetList: data, isLoading };

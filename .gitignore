@@ -7,7 +7,12 @@
 .yarn/install-state.gz
 
 # testing
-/coverage
+coverage
+cy-coverage
+.nyc_output
+cypress/downloads
+cypress/screenshots
+cypress/videos
 
 # next.js
 /.next/

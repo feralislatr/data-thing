@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // allow test coverage for cypress
+  experimental: {
+    swcPlugins: [
+      ['swc-plugin-coverage-instrument', {}]
+    ]
+  },
   async rewrites() {
     return [
       {
