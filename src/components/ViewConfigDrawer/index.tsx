@@ -12,6 +12,11 @@ import {
 import { GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 
+/**
+ * Render Drawer component to either view or create a new Chart View.
+ * "new" mode renders editable view for creating a new Chart.
+ * "view" mode renders non-editable view to see current config.
+ */
 export default function ViewConfigDrawer({
   open,
   onClose,
@@ -39,6 +44,7 @@ export default function ViewConfigDrawer({
   }) => void;
   mode: 'new' | 'view' | undefined;
 }) {
+  // populate fields with current data if in view mode
   useEffect(() => {
     if (mode === 'view') {
       if (viewConfig) {
@@ -83,6 +89,7 @@ export default function ViewConfigDrawer({
     </MenuItem>
   ));
 
+  /** Render empty fields for creating a new View */
   const renderEditMode = () => {
     return (
       <>
@@ -147,6 +154,7 @@ export default function ViewConfigDrawer({
     );
   };
 
+  /** Render disabled fields for viewing current config only */
   const renderViewMode = () => {
     return (
       <>

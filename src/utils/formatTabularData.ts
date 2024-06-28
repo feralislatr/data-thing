@@ -2,6 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { Data } from '@/types/dataSet';
 import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
+/**
+ * Transform data.gov distribution download into proper format for MUI DataGrid component.
+ * Reference: https://resources.data.gov/resources/dcat-us/
+ */
 export default function formatTabularData(data: Data): {
   filteredColumns: GridColDef[];
   filteredRows: GridValidRowModel[];

@@ -2,6 +2,10 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { useMemo } from 'react';
 import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
+/**
+ * Render Bar Chart View where X axis is pulled from configData
+ * and Y axis is number of units.
+ */
 export function BarChartView({
   viewId,
   columns,
@@ -13,7 +17,7 @@ export function BarChartView({
   rows: GridValidRowModel[];
   configData: any; // TODO
 }) {
-  const indVariable = configData.params.selectedColumn; // hardcoding model year column
+  const indVariable = configData.params.selectedColumn;
   const { dataset } = useMemo(() => {
     // yAxis
     const map = new Map();

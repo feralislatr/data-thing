@@ -4,6 +4,10 @@ import Link from 'next/link';
 import { useDataSetList } from '@/hooks/use-datasets';
 import styles from './styles.module.scss';
 
+/**
+ * Render each dataset displaying the title, modified date, maintaining agency, and description.
+ * Link to each dataset's Chart page on click, determined by the dataset name.
+ */
 const renderDataSet = (dataset: DataSet) => {
   return (
     <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name}`}>
@@ -17,6 +21,9 @@ const renderDataSet = (dataset: DataSet) => {
   );
 };
 
+/**
+ * Render list of datasets from the catalog.
+ */
 export default function DataSetList() {
   const { dataSetList, isLoading } = useDataSetList();
 

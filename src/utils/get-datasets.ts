@@ -6,6 +6,7 @@ function filterJsonResource(dataSet: DataSet) {
   return dataSet?.resources?.find((item: Resource) => item.format === 'JSON');
 }
 
+/** Get catalog results list, filtering for JSON datasets */
 export default async function getDataSets() {
   const url = '/catalog/api/3/action/package_search';
   try {

@@ -5,6 +5,9 @@ import formatTabularData from '@/utils/formatTabularData';
 import getData from '@/utils/get-data';
 import getDataSets from '@/utils/get-datasets';
 
+/**
+ * Get dataset catalog list
+ */
 export function useDataSetList(): {
   dataSetList: DataSet[];
   isLoading: boolean;
@@ -17,6 +20,9 @@ export function useDataSetList(): {
   return { dataSetList: data, isLoading };
 }
 
+/**
+ * Get JSON data from a given dataset by name
+ */
 export function useDataSet(
   url: URL | null,
   name: string,
