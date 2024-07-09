@@ -4,16 +4,19 @@ import './globals.css';
 import TanstackProvider from '@/providers/TanstackProvider';
 import Theme from '@/providers/Theme';
 
+/* istanbul ignore next */
 const barlow = Barlow({
   subsets: ['latin'],
   weight: ['300', '400', '600'],
   variable: '--font-barlow',
 });
+/* istanbul ignore next */
 const barlowcondensed = Barlow_Semi_Condensed({
   subsets: ['latin'],
   weight: ['300', '400', '600'],
   variable: '--font-barlow-condensed',
 });
+/* istanbul ignore next */
 const spacemono = Space_Mono({
   subsets: ['latin'],
   weight: ['400'],
