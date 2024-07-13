@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Data } from '@/types/dataSet';
 import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
@@ -10,32 +9,37 @@ export default function formatTabularData(data: Data): {
   filteredColumns: GridColDef[];
   filteredRows: GridValidRowModel[];
 } {
-  // first find number of columns where id = -1
-  let filteredColumns = [];
-  let hiddenCount = 0;
-  for (let i = 0; i < data?.meta?.view?.columns.length; i++) {
-    if (data.meta.view.columns[i].id == -1) {
-      hiddenCount++;
+  const filteredColumns: GridColDef[] = [];
+  const hiddenColumnIndices = [];
+  const columns = data?.meta?.view?.columns;
+  if (!columns) {
+    return { filteredColumns, filteredRows: [] };
+  }
+  for (const column of columns) {
+    if (column.flags?.includes('hidden')) {
+      const index = columns.indexOf(column);
+      hiddenColumnIndices.push(index);
     } else {
       filteredColumns.push({
-        field: data.meta.view.columns[i].fieldName,
-        headerName: data.meta.view.columns[i].name,
-        dataType: data.meta.view.columns[i].dataTypeName || 'string',
+        field: column.fieldName,
+        headerName: column.name,
       });
     }
   }
   let filteredRows = [];
-  // map over each record -- limiting to 100 for performance
-  for (let i = 0; i < 100; i++) {
-    let datum = data?.data[i];
-    let row: { [key: string]: string } = {};
-    for (let j = 0; j < filteredColumns.length; j++) {
-      row[filteredColumns[j].field] = datum[hiddenCount + j];
+  const rows = data?.data;
+  for (const row of rows) {
+    const rowIndex = rows.indexOf(row);
+    const filteredRow: Record<string, any> = {};
+    for (const cell of row) {
+      const cellIndex = row.indexOf(cell);
+      if (hiddenColumnIndices.includes(cellIndex)) {
+        continue;
+      }
+      const column = columns[cellIndex];
+      filteredRow[column.fieldName] = cell;
     }
-    filteredRows[i] = {
-      id: uuidv4(),
-      ...row,
-    };
+    filteredRows.push({ id: rowIndex, ...filteredRow });
   }
   return { filteredColumns, filteredRows };
 }

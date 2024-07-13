@@ -9,7 +9,6 @@ import styles from '../styles.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import { BarChartView } from '@/components/BarChartView';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
-import { v4 as uuidv4 } from 'uuid';
 import { ViewConfig } from '@/types/viewConfig';
 import { DataSet } from '@/types/dataSet';
 import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
@@ -120,7 +119,8 @@ export default function ChartPage({ params }: { params: { name: string } }) {
     setViewList(state => [
       ...state,
       {
-        id: uuidv4(),
+        // TODO: find better id
+        id: `${state.length + 1}`,
         type: configData.viewType,
         value: configData.displayColumnId,
         params: {

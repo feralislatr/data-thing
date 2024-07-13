@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { DataSet, Data } from '@/types/dataSet';
 import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
@@ -38,7 +39,7 @@ export function useDataSet(
     queryFn: () => getData(url),
   });
 
-  const { filteredColumns, filteredRows } = formatTabularData(data);
+  const { filteredColumns, filteredRows } = useMemo(() => formatTabularData(data), [data]);
 
   return { data, filteredColumns, filteredRows, isLoading };
 }

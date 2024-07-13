@@ -23,6 +23,7 @@ export type Column = {
   position: number;
   tableColumnId: number;
   format: object;
+  flags?: string[];
 };
 
 export type Data = {
