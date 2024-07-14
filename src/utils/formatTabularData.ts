@@ -10,16 +10,16 @@ export default function formatTabularData(data: Data): {
   filteredRows: GridValidRowModel[];
 } {
   const filteredColumns: GridColDef[] = [];
-  const hiddenColumnIndices = [];
+  const visibleColumnIndices = [];
   const columns = data?.meta?.view?.columns;
   if (!columns) {
     return { filteredColumns, filteredRows: [] };
   }
   for (const column of columns) {
     if (column.flags?.includes('hidden')) {
-      const index = columns.indexOf(column);
-      hiddenColumnIndices.push(index);
+      continue;
     } else {
+      visibleColumnIndices.push(columns.indexOf(column));
       filteredColumns.push({
         field: column.fieldName,
         headerName: column.name,
@@ -31,13 +31,8 @@ export default function formatTabularData(data: Data): {
   for (const row of rows) {
     const rowIndex = rows.indexOf(row);
     const filteredRow: Record<string, any> = {};
-    for (const cell of row) {
-      const cellIndex = row.indexOf(cell);
-      if (hiddenColumnIndices.includes(cellIndex)) {
-        continue;
-      }
-      const column = columns[cellIndex];
-      filteredRow[column.fieldName] = cell;
+    for (const index of visibleColumnIndices) {
+      filteredRow[columns[index].fieldName] = row[index];
     }
     filteredRows.push({ id: rowIndex, ...filteredRow });
   }
