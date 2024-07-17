@@ -6,7 +6,7 @@ import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
  * Render Bar Chart View where X axis is pulled from configData
  * and Y axis is number of units.
  */
-export function BarChartView({
+export default function BarChartView({
   viewId,
   columns,
   rows,

@@ -1,17 +1,15 @@
 'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState, memo, MemoExoticComponent, ReactNode } from 'react';
 import { useDataSet, useDataSetList } from '@/hooks/use-datasets';
 import { Chip, IconButton } from '@mui/material';
-import { TableView } from '@/components/TableView';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import AddIcon from '@mui/icons-material/Add';
 import styles from '../styles.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
-import { BarChartView } from '@/components/BarChartView';
+import DisplayChart from '@/components/DisplayChart';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
 import { ViewConfig } from '@/types/viewConfig';
 import { DataSet } from '@/types/dataSet';
-import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
 const initialViewList: ViewConfig[] = [
   {
@@ -68,25 +66,6 @@ const renderViewButton = (
     label={view.name}
   />
 );
-
-const renderChart = (
-  activeView: ViewConfig,
-  filteredColumns: GridColDef[],
-  filteredRows: GridValidRowModel[],
-): React.ReactNode => {
-  return {
-    bar: (
-      <BarChartView
-        viewId={activeView.value}
-        columns={filteredColumns}
-        rows={filteredRows}
-        configData={activeView}
-      />
-    ),
-    table: <TableView viewId={activeView.value} columns={filteredColumns} rows={filteredRows} />,
-    default: <div>View not supported</div>,
-  }[activeView.type];
-};
 
 /**
  * Render Chart page where users may view data or create a new chart View
@@ -155,7 +134,7 @@ export default function ChartPage({ params }: { params: { name: string } }) {
         ) : (
           <ErrorBoundary>
             <p>{data?.meta?.view?.description}</p>
-            {renderChart(activeView, filteredColumns, filteredRows)}
+            <DisplayChart activeView={activeView} filteredColumns={filteredColumns} filteredRows={filteredRows} />
             <ViewConfigDrawer
               open={Boolean(drawerMode)}
               onClose={() => setDrawerMode(undefined)}

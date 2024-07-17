@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 /**
  * Render tabular View for dataset
  */
-export function TableView({
+export default function TableView({
   viewId,
   columns,
   rows,
