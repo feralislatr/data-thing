@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // allow test coverage for cypress
-  experimental: {
-    swcPlugins: [
-      ['swc-plugin-coverage-instrument', {}]
-    ]
-  },
+  /**
+   * remove instrumentation to avoid material-ui error
+   * https://github.com/mui/material-ui/issues/42840#issuecomment-2302591694
+   */
+  // experimental: {
+  //   swcPlugins: [
+  //     ['swc-plugin-coverage-instrument', {}]
+  //   ]
+  // },
   async rewrites() {
     return [
       {
