@@ -25,3 +25,19 @@
     }
   }
 }
+
+.loading {
+  :global {
+    padding: 1rem;
+    .view-list {
+      span {
+        display: block;
+        padding: auto 12px auto;
+        border-radius: 40px;
+      }
+      display: flex;
+      gap: 16px;
+      margin: 8px 0 16px 0;
+    }
+  }
+}

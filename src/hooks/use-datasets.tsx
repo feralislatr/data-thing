@@ -22,24 +22,29 @@ export function useDataSetList(): {
 }
 
 /**
- * Get JSON data from a given dataset by name
+ * Get dataset data using select
  */
-export function useDataSet(
-  url: URL | null,
-  name: string,
-): {
-  data: Data;
-  filteredColumns: GridColDef[];
-  filteredRows: GridValidRowModel[];
-  isLoading: boolean;
-} {
+export const useDataSetQuery = (url: string | null, name: string, select: (data: Data) => any) => {
   const { data, isLoading } = useQuery<any>({
     enabled: Boolean(url),
     queryKey: [name],
     queryFn: () => getData(url),
+    select,
   });
+  return { ...data, isLoading };
+};
 
-  const { filteredColumns, filteredRows } = useMemo(() => formatTabularData(data), [data]);
+/**
+ * Get view details from a given dataset by name
+ */
+export const useDataSetDetails = (url: string | null, name: string) =>
+  useDataSetQuery(url, name, data => data.meta.view);
 
-  return { data, filteredColumns, filteredRows, isLoading };
-}
+/**
+ * Get JSON data from a given dataset by name
+ */
+export const useDataSetData = (
+  url: string | null,
+  name: string,
+): { filteredColumns: GridColDef[]; filteredRows: GridValidRowModel[]; isLoading: boolean } =>
+  useDataSetQuery(url, name, data => formatTabularData(data));

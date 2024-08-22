@@ -1,9 +1,10 @@
-'use client';
 import { DataSet, Resource } from '@/types/dataSet';
 
 // filter for JSON dataSets for now
 function filterJsonResource(dataSet: DataSet) {
-  return dataSet?.resources?.find((item: Resource) => item.format === 'JSON');
+  return dataSet?.resources?.find(
+    (item: Resource) => item.format === 'JSON' && Object.hasOwnProperty('url'),
+  );
 }
 
 /** Get catalog results list, filtering for JSON datasets */
