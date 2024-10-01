@@ -4,20 +4,22 @@ import { ViewConfig } from '@/types/viewConfig';
 import BarChartView from '@/components/BarChartView';
 import TableView from '@/components/TableView';
 
-interface DisplayChartProps {
+type DisplayChartProps = {
   activeView: ViewConfig;
   filteredColumns: GridColDef[];
   filteredRows: GridValidRowModel[];
-}
+  loading: boolean;
+};
 
-/** 
- * Render active Chart 
+/**
+ * Render active Chart
  * Memoized to prevent expensive rerender
-*/
+ */
 const DisplayChart = memo(function DisplayChart({
   activeView,
   filteredColumns,
   filteredRows,
+  loading,
 }: DisplayChartProps) {
   return {
     bar: (
@@ -28,7 +30,14 @@ const DisplayChart = memo(function DisplayChart({
         configData={activeView}
       />
     ),
-    table: <TableView viewId={activeView.value} columns={filteredColumns} rows={filteredRows} />,
+    table: (
+      <TableView
+        viewId={activeView.value}
+        columns={filteredColumns}
+        rows={filteredRows}
+        loading={loading}
+      />
+    ),
     default: <div>View not supported</div>,
   }[activeView.type];
 });

@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import styles from './page.module.scss';
 import DataSetList from '@/components/DataSetList';
+import getDataSets from '@/utils/get-datasets';
 
-export default function Home() {
+export default async function Home() {
+  const dataSetList = await getDataSets();
   return (
     <main className={styles.main}>
       <section className="title-panel">
@@ -17,7 +19,7 @@ export default function Home() {
       </section>
       <section className="dataset-panel">
         <h2>datasets</h2>
-        <DataSetList />
+        <DataSetList dataSetList={dataSetList} />
       </section>
     </main>
   );

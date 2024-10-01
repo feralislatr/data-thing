@@ -1,8 +1,10 @@
-'use client';
 import { DataSet } from '@/types/dataSet';
 import Link from 'next/link';
-import { useDataSetList } from '@/hooks/use-datasets';
 import styles from './styles.module.scss';
+
+type DataSetListProps = {
+  dataSetList: DataSet[];
+};
 
 /**
  * Render each dataset displaying the title, modified date, maintaining agency, and description.
@@ -24,12 +26,10 @@ const renderDataSet = (dataset: DataSet) => {
 /**
  * Render list of datasets from the catalog.
  */
-export default function DataSetList() {
-  const { dataSetList, isLoading } = useDataSetList();
-
+export default function DataSetList({ dataSetList }: DataSetListProps) {
   return (
     <div className={styles['dataset-list']}>
-      {isLoading ? 'loading...' : dataSetList?.map(item => renderDataSet(item))}
+      {!dataSetList.length ? 'loading...' : dataSetList?.map(item => renderDataSet(item))}
     </div>
   );
 }

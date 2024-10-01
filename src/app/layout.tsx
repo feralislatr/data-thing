@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Barlow, Barlow_Semi_Condensed, Space_Mono } from 'next/font/google';
 import './globals.css';
-import TanstackProvider from '@/providers/TanstackProvider';
 import Theme from '@/providers/Theme';
 
 /* istanbul ignore next */
@@ -41,9 +40,7 @@ export default function RootLayout({
       <body
         className={`${barlow.className} ${barlowcondensed.variable} ${spacemono.variable} ${theme}`}
       >
-        <Theme mode={theme}>
-          <TanstackProvider>{children}</TanstackProvider>
-        </Theme>
+        <Theme mode={theme}>{children}</Theme>
       </body>
     </html>
   );

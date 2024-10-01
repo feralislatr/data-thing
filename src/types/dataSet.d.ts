@@ -26,19 +26,21 @@ export type Column = {
   flags?: string[];
 };
 
+export type DataView = {
+  id: string;
+  name: string;
+  assetType: string;
+  attribution: string;
+  category: string;
+  description: string;
+  displayType: string;
+  dataTypeName: string;
+  columns: Column[];
+};
+
 export type Data = {
   meta: {
-    view: {
-      id: string;
-      name: string;
-      assetType: string;
-      attribution: string;
-      category: string;
-      description: string;
-      displayType: string;
-      dataTypeName: string;
-      columns: Column[];
-    };
+    view: DataView;
   };
   data: any[];
 };
