@@ -1,4 +1,4 @@
-'use client';
+'use server';
 import { DataSet, Resource } from '@/types/dataSet';
 
 // filter for JSON dataSets for now
@@ -8,7 +8,7 @@ function filterJsonResource(dataSet: DataSet) {
 
 /** Get catalog results list, filtering for JSON datasets */
 export default async function getDataSets() {
-  const url = '/catalog/api/3/action/package_search';
+  const url = 'https://catalog.data.gov/api/3/action/package_search';
   try {
     const response = await fetch(url);
     const data = await response.json();

@@ -9,14 +9,6 @@ const nextConfig = {
   //     ['swc-plugin-coverage-instrument', {}]
   //   ]
   // },
-  async rewrites() {
-    return [
-      {
-        source: '/catalog/:path*',
-        destination: 'https://catalog.data.gov/:path*',
-      },
-    ];
-  },
   async headers() {
     return [
       {
