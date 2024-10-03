@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "cy:view": "open ./cy-coverage/lcov-report/index.html"
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:report": "playwright show-report"
   },
   "nyc": {
     "report-dir": "./cy-coverage",
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.39",
+    "@playwright/test": "^1.47.2",
     "@testing-library/cypress": "^10.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
