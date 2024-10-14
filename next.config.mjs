@@ -1,14 +1,20 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
-  /**
-   * remove instrumentation to avoid material-ui error
-   * https://github.com/mui/material-ui/issues/42840#issuecomment-2302591694
-   */
-  // experimental: {
-  //   swcPlugins: [
-  //     ['swc-plugin-coverage-instrument', {}]
-  //   ]
-  // },
+  
+  experimental: {
+    /**
+     * Enable test proxy only in test mode because it breaks next/font
+     * https://github.com/vercel/next.js/issues/66238
+     */
+    ...(process.env.NODE_ENV === 'test' && { testProxy: true}),
+    // allow test coverage for cypress; exclude @mui from instrumentation
+    swcPlugins: [
+      ['swc-plugin-coverage-instrument',  {
+          unstableExclude: ['**/node_modules/@mui/**'], 
+      }]
+    ]
+  },
   async headers() {
     return [
       {

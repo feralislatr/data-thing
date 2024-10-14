@@ -1,4 +1,3 @@
-
 describe('Home', () => {
   it('renders dataSets on the homepage', () => {
     // intercept api calls

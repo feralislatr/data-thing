@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:e2e": "NODE_ENV=test next dev -p 3030",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -12,7 +13,7 @@
     "e2e:report": "playwright show-report"
   },
   "nyc": {
-    "report-dir": "./cy-coverage",
+    "report-dir": "./coverage",
     "reporter": [
       "json",
       "lcov",
@@ -50,7 +51,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "prettier": "3.2.5",
-    "swc-plugin-coverage-instrument": "^0.0.21",
+    "swc-plugin-coverage-instrument": "^0.0.24",
     "typescript": "^5"
   }
 }

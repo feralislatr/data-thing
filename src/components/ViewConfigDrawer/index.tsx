@@ -61,7 +61,7 @@ export default function ViewConfigDrawer({
       setdisplayColumnId('');
       setYAxisUnit('');
     }
-  }, [mode]);
+  }, [mode, viewConfig]);
 
   const [viewName, setViewName] = useState('');
   const [viewType, setViewType] = useState('');
