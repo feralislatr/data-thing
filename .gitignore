@@ -8,7 +8,6 @@
 
 # testing
 coverage
-cy-coverage
 .nyc_output
 cypress/downloads
 cypress/screenshots
@@ -39,7 +38,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-node_modules/
+
+# playwright
 /test-results/
 /playwright-report/
 /blob-report/
