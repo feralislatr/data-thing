@@ -17,7 +17,7 @@ export default function TableView({ viewId, columns, rows, loading }: TableViewP
       rows={rows}
       columns={columns}
       loading={loading}
-      slots={{
+      slotProps={{
         loadingOverlay: {
           variant: 'skeleton',
           noRowsVariant: 'skeleton',

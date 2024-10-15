@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  
   experimental: {
     /**
      * Enable test proxy only in test mode because it breaks next/font

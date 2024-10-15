@@ -65,7 +65,7 @@ const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => 
               },
             ],
           },
-          MuiDataGrid: {
+          MuiGrid: {
             styleOverrides: {
               root: {
                 '& .MuiSvgIcon-root': {
@@ -103,6 +103,10 @@ const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => 
               root: {
                 backgroundColor: mode === 'light' ? colors.white : colors.offBlack,
                 color: mode === 'light' ? colors.darkGray : colors.lightGray,
+                '&.MuiDataGrid-paper': {
+                  backgroundColor: mode === 'light' ? colors.white : colors.offBlack,
+                  color: mode === 'light' ? colors.darkGray : colors.lightGray,
+                },
               },
             },
           },
