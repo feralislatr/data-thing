@@ -1,18 +1,22 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from 'next';
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   experimental: {
     /**
      * Enable test proxy only in test mode because it breaks next/font
      * https://github.com/vercel/next.js/issues/66238
      */
-    ...(process.env.NODE_ENV === 'test' && { testProxy: true}),
-    // allow test coverage for cypress; exclude @mui from instrumentation
-    swcPlugins: [
-      ['swc-plugin-coverage-instrument',  {
-          unstableExclude: ['**/node_modules/@mui/**'], 
-      }]
-    ]
+    ...(process.env.NODE_ENV === 'test' && { testProxy: true }),
+    // // this breaks with next 15
+    // // allow test coverage for cypress; exclude @mui from instrumentation
+    // swcPlugins: [
+    //   [
+    //     'swc-plugin-coverage-instrument',
+    //     {
+    //       unstableExclude: ['**/node_modules/@mui/**'],
+    //     },
+    //   ],
+    // ],
   },
   async headers() {
     return [

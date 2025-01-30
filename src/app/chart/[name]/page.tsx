@@ -20,12 +20,15 @@ const getDataSetResourceUrl = (dataSetItem?: DataSet) => {
   return resource ? new URL(resource.url) : null;
 };
 
+type Params = Promise<{ name: string }>;
+
 /**
  * Render Chart page where users may view data or create a new chart View
  */
-export default async function ChartPage({ params }: { params: { name: string } }) {
+export default async function ChartPage({ params }: { params: Params }) {
+  const { name } = await params;
   const dataSetList = await getDataSets();
-  const dataSetItem = getDataSetItem(dataSetList, params.name);
+  const dataSetItem = getDataSetItem(dataSetList, name);
   const dataSetResourceUrl = getDataSetResourceUrl(dataSetItem);
   const url = dataSetResourceUrl ? dataSetResourceUrl.href : null;
 
