@@ -30,9 +30,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 bun run e2e
 ```
-
-### View Test Coverage
-
-```
-bun run e2e:view
-```
