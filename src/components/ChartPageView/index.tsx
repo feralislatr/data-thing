@@ -65,7 +65,7 @@ export default function ChartPageView({
   columns,
   rows,
 }: ChartPageViewProps) {
-  const [activeView, setActiveView] = useState(initialViewList[0]);
+  const [activeView, setActiveView] = useState<ViewConfig>(initialViewList[0]);
   const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined);
   const [viewList, setViewList] = useState<ViewConfig[]>(initialViewList);
 
