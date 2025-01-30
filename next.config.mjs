@@ -7,12 +7,6 @@ const nextConfig = {
      * https://github.com/vercel/next.js/issues/66238
      */
     ...(process.env.NODE_ENV === 'test' && { testProxy: true}),
-    // allow test coverage for cypress; exclude @mui from instrumentation
-    swcPlugins: [
-      ['swc-plugin-coverage-instrument',  {
-          unstableExclude: ['**/node_modules/@mui/**'], 
-      }]
-    ]
   },
   async headers() {
     return [

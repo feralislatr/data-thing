@@ -1,4 +1,3 @@
-// import { test, expect } from 'next/experimental/testmode/playwright';
 import { test, expect } from '../baseFixture';
 import data from '../data/catalog.json';
 

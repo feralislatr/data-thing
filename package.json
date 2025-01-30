@@ -10,44 +10,29 @@
     "lint": "next lint",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
-    "e2e:view": "open ./coverage/lcov-report/index.html",
     "e2e:report": "playwright show-report"
   },
-  "nyc": {
-    "report-dir": "./coverage",
-    "reporter": [
-      "json",
-      "lcov",
-      "text-summary"
-    ],
-    "include": [
-      "src/**/*"
-    ],
-    "all": true,
-    "instrument": true
-  },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/icons-material": "^5.16.1",
-    "@mui/material": "^5.16.1",
-    "@mui/x-charts": "^7.3.0",
-    "@mui/x-data-grid": "^7.20.0",
-    "next": "^14.2.5",
-    "react": "^18",
-    "react-dom": "^18",
-    "sass": "^1.70.0"
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^5.16.14",
+    "@mui/material": "^5.16.14",
+    "@mui/x-charts": "^7.24.1",
+    "@mui/x-data-grid": "^7.24.1",
+    "next": "^14.2.23",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sass": "^1.83.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.47.2",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^20.17.16",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "@types/uuid": "^9.0.8",
-    "eslint": "^8",
+    "eslint": "^8.57.1",
     "eslint-config-next": "14.1.0",
     "prettier": "3.2.5",
-    "swc-plugin-coverage-instrument": "^0.0.24",
-    "typescript": "^5"
+    "typescript": "^5.7.3"
   }
 }
