@@ -1,6 +1,6 @@
 'use client';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Chip, IconButton } from '@mui/material';
+import { Chip, IconButton, NoSsr } from '@mui/material';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import AddIcon from '@mui/icons-material/Add';
 import styles from '../../app/chart/styles.module.scss';
@@ -28,26 +28,6 @@ const viewTypes = [
     name: 'Bar Chart',
   },
 ];
-
-/**
- * Render chips that display configured Views
- */
-const renderViewButton = (
-  view: ViewConfig,
-  activeView: ViewConfig,
-  setActiveView: Dispatch<SetStateAction<ViewConfig>>,
-) => (
-  <Chip
-    key={view.id}
-    variant={view.id === activeView.id ? 'filled' : 'outlined'}
-    color="primary"
-    onClick={() => {
-      setActiveView(view);
-    }}
-    disabled={view.id === activeView.id}
-    label={view.name}
-  />
-);
 
 type ChartPageViewProps = {
   chartTitle: string;
@@ -106,7 +86,18 @@ export default function ChartPageView({
         </IconButton>
       </div>
       <div className="view-list">
-        {viewList.map(view => renderViewButton(view, activeView, setActiveView))}
+        {viewList.map(view => (
+          <Chip
+            key={view.id}
+            variant={view.id === activeView.id ? 'filled' : 'outlined'}
+            color="primary"
+            onClick={() => {
+              setActiveView(view);
+            }}
+            disabled={view.id === activeView.id}
+            label={view.name}
+          />
+        ))}
         <Chip
           variant="outlined"
           color="primary"

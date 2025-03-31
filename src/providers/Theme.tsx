@@ -142,7 +142,7 @@ const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => 
                     color: mode === 'light' ? colors.darkGray : colors.lightGray,
                     ...(mode === 'dark' && {
                       filter: 'brightness(0.5)',
-                      '-webkit-text-fill-color': 'inherit',
+                      webkitTextFillColor: 'inherit',
                     }),
                   },
                   '&.MuiOutlinedInput-root': {
@@ -164,7 +164,7 @@ const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => 
                 '&.MuiOutlinedInput-input.Mui-disabled': {
                   ...(mode === 'dark' && {
                     filter: 'brightness(0.5)',
-                    '-webkit-text-fill-color': 'inherit',
+                    webkitTextFillColor: 'inherit',
                   }),
                 },
               },

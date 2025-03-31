@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Barlow, Barlow_Semi_Condensed, Space_Mono } from 'next/font/google';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import './globals.css';
 import Theme from '@/providers/Theme';
 
@@ -40,7 +41,9 @@ export default function RootLayout({
       <body
         className={`${barlow.className} ${barlowcondensed.variable} ${spacemono.variable} ${theme}`}
       >
-        <Theme mode={theme}>{children}</Theme>
+        <AppRouterCacheProvider>
+          <Theme mode={theme}>{children}</Theme>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
