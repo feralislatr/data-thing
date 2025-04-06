@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from './styles.module.scss';
+import styles from './page.module.scss';
 
 export default function ChartLayout({
   children,

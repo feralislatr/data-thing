@@ -52,7 +52,9 @@ h2 {
 }
 
 h3 {
+  font-family: var(--font-barlow-condensed);
   font-size: 2rem;
+  letter-spacing: 6%;
 }
 
 h4 {

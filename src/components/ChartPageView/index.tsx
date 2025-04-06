@@ -1,13 +1,14 @@
 'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Chip, IconButton, NoSsr } from '@mui/material';
+import { useState } from 'react';
+import { Chip, IconButton } from '@mui/material';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import AddIcon from '@mui/icons-material/Add';
-import styles from '../../app/chart/styles.module.scss';
+import styles from '@/app/chart/page.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import DisplayChart from '@/components/DisplayChart';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
 import { ViewConfig } from '@/types/viewConfig';
+import { DataView, DataSet } from '@/types/dataSet';
 
 const initialViewList: ViewConfig[] = [
   {
@@ -30,8 +31,8 @@ const viewTypes = [
 ];
 
 type ChartPageViewProps = {
-  chartTitle: string;
-  description: string;
+  dataSetItem: DataSet | undefined;
+  metadata: DataView | undefined;
   columns: any[];
   rows: any[];
 };
@@ -40,11 +41,18 @@ type ChartPageViewProps = {
  * Render Chart page where users may view data or create a new chart View
  */
 export default function ChartPageView({
-  chartTitle,
-  description,
+  dataSetItem,
+  metadata,
   columns,
   rows,
 }: ChartPageViewProps) {
+  const date =
+    dataSetItem &&
+    new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      year: 'numeric',
+    }).format(new Date(dataSetItem.metadata_modified));
+
   const [activeView, setActiveView] = useState<ViewConfig>(initialViewList[0]);
   const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined);
   const [viewList, setViewList] = useState<ViewConfig[]>(initialViewList);
@@ -79,11 +87,19 @@ export default function ChartPageView({
 
   return (
     <main className={styles['chart-container']}>
-      <div className="chart-title">
-        <h3>{chartTitle}</h3>
-        <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('view')}>
-          <DensityMediumIcon />
-        </IconButton>
+      <div className="chart-metadata">
+        <div className="chart-metadata-tags">
+          <div>{metadata?.category}</div>
+          <div>{date ?? ''}</div>
+        </div>
+        <div className="chart-title">
+          <h3>{dataSetItem?.title ?? ''}</h3>
+          <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('view')}>
+            <DensityMediumIcon />
+          </IconButton>
+        </div>
+        <h4>{`${dataSetItem?.organization.title} - ${dataSetItem?.maintainer}`}</h4>
+        <p>{metadata?.description ?? 'N/A'}</p>
       </div>
       <div className="view-list">
         {viewList.map(view => (
@@ -105,7 +121,6 @@ export default function ChartPageView({
           label={<AddIcon />}
         />
       </div>
-      <p>{description}</p>
       <ErrorBoundary>
         <DisplayChart
           activeView={activeView}
