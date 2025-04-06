@@ -1,5 +1,5 @@
 import { DataSet } from '@/types/dataSet';
-import ChartPageView from '../../../components/ChartPageView';
+import ChartPageView from '@/components/ChartPageView';
 import getDataSets from '@/utils/get-datasets';
 import getData from '@/utils/get-data';
 import formatTabularData from '@/utils/formatTabularData';
@@ -35,13 +35,10 @@ export default async function ChartPage({ params }: { params: Params }) {
   const unformattedData = await getData(url);
   const { filteredColumns: columns, filteredRows: rows } = formatTabularData(unformattedData);
 
-  const chartTitle = dataSetItem ? dataSetItem.title : '';
-  const description = unformattedData?.meta?.view?.description || 'N/A';
-
   return (
     <ChartPageView
-      chartTitle={chartTitle}
-      description={description}
+      metadata={unformattedData?.meta?.view}
+      dataSetItem={dataSetItem}
       columns={columns}
       rows={rows}
     />

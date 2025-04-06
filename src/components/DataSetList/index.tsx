@@ -11,12 +11,18 @@ type DataSetListProps = {
  * Link to each dataset's Chart page on click, determined by the dataset name.
  */
 const renderDataSet = (dataset: DataSet) => {
+  const date = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: '2-digit',
+    year: 'numeric',
+  }).format(new Date(dataset.metadata_modified));
+
   return (
     <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name}`}>
       <h3>{dataset.title}</h3>
-      <div>
-        <h4>{dataset.metadata_modified}</h4>
-        <h4>{dataset.maintainer}</h4>
+      <div className="dataset-metadata">
+        <h4>{`${dataset.organization.title} - ${dataset.maintainer}`}</h4>
+        <h4>{date}</h4>
       </div>
       <p>{dataset.notes}</p>
     </Link>

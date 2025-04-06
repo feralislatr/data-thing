@@ -9,19 +9,18 @@
     .title-panel {
       position: fixed;
       height: 100vh;
-      // width: 464px;
       background-color: #2d294d;
     }
 
     .title {
       font-family: var(--font-barlow-condensed);
       font-weight: 300;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.08rem;
       color: #fefefe;
     }
 
     .dataset-panel {
-      padding: 3.4em 4em 1em 4em;
+      padding: 3.4rem 4rem 1rem 4rem;
       margin-left: 464px;
       width: calc(100% - 464px);
       right: 0;

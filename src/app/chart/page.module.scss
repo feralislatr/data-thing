@@ -11,17 +11,30 @@
 .chart-container {
   :global {
     padding: 1rem 1rem 4rem 1rem;
-
-    .chart-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding-bottom: 20px;
+    .chart-metadata {
+      p {
+        max-width: 50rem;
+      }
+      .chart-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .chart-metadata-tags {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 6%;
+        margin-bottom: 1rem;
+      }
     }
+
     .view-list {
       display: flex;
-      gap: 16px;
-      margin: 8px 0 16px 0;
+      gap: 1rem;
+      margin: 0.5rem 0 1rem 0;
     }
   }
 }

@@ -11,6 +11,9 @@ export type DataSet = {
   notes: string;
   metadata_modified: string;
   maintainer: string;
+  organization: {
+    title: string;
+  };
   resources: Resource[];
 };
 
