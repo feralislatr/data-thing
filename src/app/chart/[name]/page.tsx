@@ -11,6 +11,7 @@ const getDataSetItem = (dataSetList: DataSet[], name: string) => {
   return dataSetList.find(dataSet => dataSet.name === name);
 };
 
+// change to csv
 /**
  *  Get download URL of the dataset item if it is in JSON format
  */
@@ -29,10 +30,11 @@ export default async function ChartPage({ params }: { params: Params }) {
   const { name } = await params;
   const dataSetList = await getDataSets();
   const dataSetItem = getDataSetItem(dataSetList, name);
+  const dataSetId = dataSetItem ? dataSetItem.id : '';
   const dataSetResourceUrl = getDataSetResourceUrl(dataSetItem);
   const url = dataSetResourceUrl ? dataSetResourceUrl.href : null;
 
-  const unformattedData = await getData(url);
+  const unformattedData = await getData(name, url, dataSetId);
   const { filteredColumns: columns, filteredRows: rows } = formatTabularData(unformattedData);
 
   const chartTitle = dataSetItem ? dataSetItem.title : '';
@@ -40,6 +42,8 @@ export default async function ChartPage({ params }: { params: Params }) {
 
   return (
     <ChartPageView
+      dataSetId={dataSetId}
+      // metadata={dataView} expected usage
       chartTitle={chartTitle}
       description={description}
       columns={columns}

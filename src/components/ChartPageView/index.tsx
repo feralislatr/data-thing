@@ -12,6 +12,7 @@ import { ViewConfig } from '@/types/viewConfig';
 const initialViewList: ViewConfig[] = [
   {
     id: '-1',
+    dataSetId: '',
     type: 'table',
     value: '',
     name: 'Table',
@@ -50,6 +51,7 @@ const renderViewButton = (
 );
 
 type ChartPageViewProps = {
+  dataSetId: string;
   chartTitle: string;
   description: string;
   columns: any[];
@@ -60,6 +62,7 @@ type ChartPageViewProps = {
  * Render Chart page where users may view data or create a new chart View
  */
 export default function ChartPageView({
+  dataSetId,
   chartTitle,
   description,
   columns,
@@ -86,6 +89,7 @@ export default function ChartPageView({
       {
         // TODO: find better id
         id: `${state.length + 1}`,
+        dataSetId,
         type: configData.viewType,
         value: configData.displayColumnId,
         params: {

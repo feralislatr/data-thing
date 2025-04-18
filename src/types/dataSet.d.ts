@@ -4,6 +4,7 @@ export type Resource = {
   describedBy: string;
 };
 
+// rename to DataView
 export type DataSet = {
   id: string;
   name: string;
@@ -11,6 +12,7 @@ export type DataSet = {
   notes: string;
   metadata_modified: string;
   maintainer: string;
+  extras: { key: string; value: string }[];
   resources: Resource[];
 };
 
@@ -26,8 +28,10 @@ export type Column = {
   flags?: string[];
 };
 
+// delete this
 export type DataView = {
   id: string;
+  dataSetId: string;
   name: string;
   assetType: string;
   attribution: string;
