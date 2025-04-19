@@ -14,10 +14,10 @@ export default async function getData(name: string, url: string | null, dataSetI
   //   console.error('Error connecting to AstraDB:', error);
   // }
 
-  const collections = await db.listCollections();
+  const collections = await db.listCollections({ nameOnly: true });
   console.log('collections', collections);
   // if collection exists, return from db
-  if (collections.map(col => col.name).includes(namestring)) {
+  if (collections.includes(namestring)) {
     return db.collection(url);
   }
 

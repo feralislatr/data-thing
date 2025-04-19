@@ -4,16 +4,31 @@ export type Resource = {
   describedBy: string;
 };
 
-// rename to DataView
-export type DataSet = {
+export type DataSetRaw = {
   id: string;
   name: string;
   title: string;
   notes: string;
   metadata_modified: string;
   maintainer: string;
+  organization: {
+    title: string;
+  };
   extras: { key: string; value: string }[];
   resources: Resource[];
+};
+
+export type DataSet = {
+  id: string;
+  /* also collection name of data */
+  name: string;
+  title: string;
+  description: string;
+  metadata_modified_date: string;
+  maintainer: string;
+  downloadUrl: string;
+  category: string;
+  orgTitle: string;
 };
 
 export type Column = {
@@ -28,20 +43,20 @@ export type Column = {
   flags?: string[];
 };
 
+// // delete this
+// export type DataView = {
+//   id: string;
+//   dataSetId: string;
+//   name: string;
+//   assetType: string;
+//   attribution: string;
+//   category: string;
+//   description: string;
+//   displayType: string;
+//   dataTypeName: string;
+//   columns: Column[];
+// };
 // delete this
-export type DataView = {
-  id: string;
-  dataSetId: string;
-  name: string;
-  assetType: string;
-  attribution: string;
-  category: string;
-  description: string;
-  displayType: string;
-  dataTypeName: string;
-  columns: Column[];
-};
-
 export type Data = {
   meta: {
     view: DataView;
