@@ -28,7 +28,7 @@ export default async function getOrCreateDataset(query: DataSetRaw | string) {
       metadata_modified_date: metadata_modified,
       maintainer,
       orgTitle: organization.title,
-      category: extras.find(item => item.key === 'category')?.value ?? '',
+      category: extras.find(item => item.key === 'theme')?.value ?? '',
       downloadUrl: new URL(resources.find(item => item.format === 'CSV')?.url ?? '').href,
     };
     await datasetList.insertOne(tempRecord);
