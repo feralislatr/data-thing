@@ -43,20 +43,7 @@ export type Column = {
   flags?: string[];
 };
 
-// // delete this
-// export type DataView = {
-//   id: string;
-//   dataSetId: string;
-//   name: string;
-//   assetType: string;
-//   attribution: string;
-//   category: string;
-//   description: string;
-//   displayType: string;
-//   dataTypeName: string;
-//   columns: Column[];
-// };
-// delete this
+// delete this later
 export type Data = {
   meta: {
     view: DataView;

@@ -2,13 +2,18 @@
   :global {
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 2rem;
+    margin-top: 3rem;
 
     .dataset {
-      padding: 1em;
-      margin-left: -1em;
+      padding: 1rem;
+      margin-left: -1rem;
+      .dataset-metadata {
+        display: flex;
+        justify-content: space-between;
+      }
       p {
-        max-height: 8.5em;
+        max-height: 8.5rem;
         text-overflow: ellipsis;
         overflow: hidden;
       }

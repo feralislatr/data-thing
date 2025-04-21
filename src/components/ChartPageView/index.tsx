@@ -1,13 +1,14 @@
 'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Chip, IconButton } from '@mui/material';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import AddIcon from '@mui/icons-material/Add';
-import styles from '../../app/chart/styles.module.scss';
+import styles from '@/app/chart/page.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import DisplayChart from '@/components/DisplayChart';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
 import { ViewConfig } from '@/types/viewConfig';
+import { DataSet } from '@/types/dataSet';
 
 const initialViewList: ViewConfig[] = [
   {
@@ -30,30 +31,8 @@ const viewTypes = [
   },
 ];
 
-/**
- * Render chips that display configured Views
- */
-const renderViewButton = (
-  view: ViewConfig,
-  activeView: ViewConfig,
-  setActiveView: Dispatch<SetStateAction<ViewConfig>>,
-) => (
-  <Chip
-    key={view.id}
-    variant={view.id === activeView.id ? 'filled' : 'outlined'}
-    color="primary"
-    onClick={() => {
-      setActiveView(view);
-    }}
-    disabled={view.id === activeView.id}
-    label={view.name}
-  />
-);
-
 type ChartPageViewProps = {
-  dataSetId: string;
-  chartTitle: string;
-  description: string;
+  dataSetItem: DataSet | undefined;
   columns: any[];
   rows: any[];
 };
@@ -61,13 +40,14 @@ type ChartPageViewProps = {
 /**
  * Render Chart page where users may view data or create a new chart View
  */
-export default function ChartPageView({
-  dataSetId,
-  chartTitle,
-  description,
-  columns,
-  rows,
-}: ChartPageViewProps) {
+export default function ChartPageView({ dataSetItem, columns, rows }: ChartPageViewProps) {
+  const date =
+    dataSetItem &&
+    new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      year: 'numeric',
+    }).format(new Date(dataSetItem.metadata_modified_date));
+
   const [activeView, setActiveView] = useState<ViewConfig>(initialViewList[0]);
   const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined);
   const [viewList, setViewList] = useState<ViewConfig[]>(initialViewList);
@@ -89,7 +69,7 @@ export default function ChartPageView({
       {
         // TODO: find better id
         id: `${state.length + 1}`,
-        dataSetId,
+        dataSetId: dataSetItem?.id ?? '',
         type: configData.viewType,
         value: configData.displayColumnId,
         params: {
@@ -103,14 +83,33 @@ export default function ChartPageView({
 
   return (
     <main className={styles['chart-container']}>
-      <div className="chart-title">
-        <h3>{chartTitle}</h3>
-        <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('view')}>
-          <DensityMediumIcon />
-        </IconButton>
+      <div className="chart-metadata">
+        <div className="chart-metadata-tags">
+          <div>{dataSetItem?.category}</div>
+          <div>{date ?? ''}</div>
+        </div>
+        <div className="chart-title">
+          <h3>{dataSetItem?.title ?? ''}</h3>
+          <IconButton sx={{ color: 'text.primary' }} onClick={() => setDrawerMode('view')}>
+            <DensityMediumIcon />
+          </IconButton>
+        </div>
+        <h4>{`${dataSetItem?.orgTitle} - ${dataSetItem?.maintainer}`}</h4>
+        <p>{dataSetItem?.description ?? 'N/A'}</p>
       </div>
       <div className="view-list">
-        {viewList.map(view => renderViewButton(view, activeView, setActiveView))}
+        {viewList.map(view => (
+          <Chip
+            key={view.id}
+            variant={view.id === activeView.id ? 'filled' : 'outlined'}
+            color="primary"
+            onClick={() => {
+              setActiveView(view);
+            }}
+            disabled={view.id === activeView.id}
+            label={view.name}
+          />
+        ))}
         <Chip
           variant="outlined"
           color="primary"
@@ -118,7 +117,6 @@ export default function ChartPageView({
           label={<AddIcon />}
         />
       </div>
-      <p>{description}</p>
       <ErrorBoundary>
         <DisplayChart
           activeView={activeView}

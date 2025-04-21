@@ -1,8 +1,8 @@
 'use server';
-import { DataSet, Resource } from '@/types/dataSet';
+import { DataSetRaw, Resource } from '@/types/dataSet';
 
 // filter for JSON dataSets for now
-function filterJsonResource(dataSet: DataSet) {
+function filterJsonResource(dataSet: DataSetRaw) {
   return dataSet?.resources?.find((item: Resource) => item.format === 'JSON');
 }
 

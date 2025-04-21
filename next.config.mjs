@@ -2,6 +2,9 @@
 
 const nextConfig = {
   experimental: {
+    serverActions: {
+      bodySizeLimit: '200mb',
+    },
     /**
      * Enable test proxy only in test mode because it breaks next/font
      * https://github.com/vercel/next.js/issues/66238
