@@ -14,7 +14,7 @@ export type DataSetRaw = {
   organization: {
     title: string;
   };
-  extras: { key: string; value: string }[];
+  extras: { key: string; value: string | string[] }[];
   resources: Resource[];
 };
 

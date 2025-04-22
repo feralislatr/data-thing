@@ -6,7 +6,7 @@ import db from '@/db';
 export default async function getData(name: string, url: string | null, dataSetId: string | null) {
   if (!url) return null;
 
-  const namestring = name.replace(/-/g, '_');
+  const shortCode = name.replace(/-/g, '_').slice(0, 48);
 
   // try {
   //   await db.info();
@@ -17,8 +17,8 @@ export default async function getData(name: string, url: string | null, dataSetI
   const collections = await db.listCollections({ nameOnly: true });
   console.log('collections', collections);
   // if collection exists, return from db
-  if (collections.includes(namestring)) {
-    return db.collection(url);
+  if (collections.includes(shortCode)) {
+    return db.collection(shortCode);
   }
 
   const data = await fetch(url, {
@@ -28,9 +28,9 @@ export default async function getData(name: string, url: string | null, dataSetI
     .then(res => res.json())
     .catch(err => console.log(err));
 
-  const collection = await db.createCollection(namestring);
+  const collection = await db.createCollection(shortCode);
   // 413 request entity too large -- need to batch requests -> refactor to csv
-  collection.insertMany(data.data);
+  collection.insertMany(data);
 
   // will ultimately change this return
   return data;

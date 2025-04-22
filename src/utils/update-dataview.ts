@@ -5,15 +5,13 @@ import { DataSetRaw, DataSet } from '@/types/dataSet';
 export default async function getOrCreateDataset(query: DataSetRaw | string) {
   const { id, name, title, notes, metadata_modified, maintainer, organization, resources, extras } =
     typeof query === 'string' ? ({ name: query } as DataSetRaw) : query;
-  console.log({ query });
   // try {
-  const namestring = name.replace(/-/g, '_');
+  const shortCode = name.replace(/-/g, '_').slice(0, 48);
 
   const datasetList = await db.collection('dataset_catalog');
 
   // if collection exists, return from db
-  const record = await datasetList.findOne({ name: namestring });
-  console.log('helo', { record });
+  const record = await datasetList.findOne({ name: shortCode });
 
   if (record) {
     // what format are records returned in?
@@ -22,7 +20,7 @@ export default async function getOrCreateDataset(query: DataSetRaw | string) {
   } else {
     let tempRecord = {
       id,
-      name: namestring,
+      name: shortCode,
       title,
       description: notes,
       metadata_modified_date: metadata_modified,

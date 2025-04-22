@@ -30,10 +30,10 @@ type Params = Promise<{ name: string }>;
 export default async function ChartPage({ params }: { params: Params }) {
   const { name } = await params;
   // need to clean this up - shouldn't have to get datasets every time
+  // can get dataset from db by url if it exists
   const dataSetList = await getDataSets();
   const dataSetListItem = getDataSetItem(dataSetList, name);
   const dataSetItem = await getOrCreateDataset(dataSetListItem);
-  console.log({ dataSetItem });
 
   const dataSetId = dataSetItem ? dataSetItem.id : '';
   // const dataSetResourceUrl = getDataSetResourceUrl(dataSetItem);
