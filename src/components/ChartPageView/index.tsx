@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Chip, IconButton } from '@mui/material';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import AddIcon from '@mui/icons-material/Add';
+import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 import styles from '@/app/chart/page.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import DisplayChart from '@/components/DisplayChart';
@@ -33,8 +34,8 @@ const viewTypes = [
 
 type ChartPageViewProps = {
   dataSetItem: DataSet | undefined;
-  columns: any[];
-  rows: any[];
+  columns: GridColDef[];
+  rows: GridValidRowModel[];
 };
 
 /**

@@ -20,7 +20,7 @@ const renderDataSet = (dataset: DataSetRaw) => {
   }).format(new Date(dataset.metadata_modified));
 
   return (
-    <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name}`}>
+    <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name.slice(0, 48)}`}>
       <h3>{dataset.title}</h3>
       <div className="dataset-metadata">
         <h4>{`${dataset.organization.title} - ${dataset.maintainer}`}</h4>
@@ -35,7 +35,6 @@ const renderDataSet = (dataset: DataSetRaw) => {
  * Render list of datasets from the catalog.
  */
 export default function DataSetList({ dataSetList }: DataSetListProps) {
-  // const router = useRouter();
   return (
     <div className={styles['dataset-list']}>
       {!dataSetList.length ? 'loading...' : dataSetList?.map(item => renderDataSet(item))}

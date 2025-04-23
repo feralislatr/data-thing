@@ -27,10 +27,12 @@ export type DataSet = {
   metadata_modified_date: string;
   maintainer: string;
   downloadUrl: string;
-  category: string;
+  category: string | string[];
   orgTitle: string;
+  columns?: GridColDef[] | null;
 };
 
+// delete this
 export type Column = {
   id: number;
   name: string;
