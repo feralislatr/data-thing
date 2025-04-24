@@ -31,7 +31,18 @@ export type DataSet = {
   columns?: GridColDef[] | null;
 };
 
-// delete this
+export type DataView = {
+  id: string;
+  name: string;
+  assetType: string;
+  attribution: string;
+  category: string;
+  description: string;
+  displayType: string;
+  dataTypeName: string;
+  columns: Column[];
+};
+
 export type Column = {
   id: number;
   name: string;
