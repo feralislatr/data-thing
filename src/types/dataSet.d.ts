@@ -20,7 +20,6 @@ export type DataSetRaw = {
 
 export type DataSet = {
   id: string;
-  /* also collection name of data */
   name: string;
   title: string;
   description: string;

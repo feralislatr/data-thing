@@ -2,11 +2,13 @@
 import db from '@/db';
 import { DataSetRaw, DataSet } from '@/types/dataSet';
 import { getShortcode } from './string-util';
+import getDataSets from './get-datasets';
 
-export default async function getOrCreateDataset(query: DataSetRaw | string) {
-  const { id, name, title, notes, metadata_modified, maintainer, organization, resources, extras } =
-    typeof query === 'string' ? ({ name: query } as DataSetRaw) : query;
-  const shortCode = getShortcode(name);
+/**
+ * Get dataset from database or create a new dataset record
+ */
+export default async function getOrCreateDataset(datasetName: string) {
+  const shortCode = getShortcode(datasetName);
 
   const datasetList = await db.collection('dataset_catalog');
 
@@ -15,7 +17,19 @@ export default async function getOrCreateDataset(query: DataSetRaw | string) {
   if (record) {
     return record as unknown as DataSet;
   } else {
-    let tempRecord = {
+    const dataSetList = await getDataSets();
+    const {
+      id,
+      title,
+      notes,
+      metadata_modified,
+      maintainer,
+      organization,
+      resources,
+      extras,
+    }: DataSetRaw = dataSetList.find((dataSet: DataSetRaw) => dataSet.name === datasetName);
+
+    let tempRecord: DataSet = {
       id,
       name: shortCode,
       title,
