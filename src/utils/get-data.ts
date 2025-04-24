@@ -2,12 +2,13 @@
 
 import db from '@/db';
 import { formatTabularDataCsv } from './formatTabularData';
+import { getShortcode } from './string-util';
 
 /** Download dataset from given resource url */
 export default async function getData(name: string, url: string | null) {
   if (!url) return { rows: [], columns: [] };
 
-  const shortCode = name.replace(/-/g, '_').slice(0, 48);
+  const shortCode = getShortcode(name);
 
   const collections = await db.listCollections({ nameOnly: true });
   // if collection exists, return from db
@@ -30,10 +31,10 @@ export default async function getData(name: string, url: string | null) {
     const datasetList = await db.collection('dataset_catalog');
     const record = await datasetList.findOne({ name: shortCode });
     if (record) {
-      await datasetList.updateOne({ name: shortCode }, { $set: { columns: data.columns } }); // review this
+      await datasetList.updateOne({ name: shortCode }, { $set: { columns: data.columns } });
     }
     const collection = await db.createCollection(shortCode);
-    // 413 request entity too large -- need to batch requests -> refactor to csv
+
     collection.insertMany(data.rows);
   } else {
     return { rows: [], columns: [] };

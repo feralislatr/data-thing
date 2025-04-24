@@ -1,4 +1,4 @@
-import toSnakeCase from '@/utils/string-util';
+import { toSnakeCase } from '@/utils/string-util';
 import { Data } from '@/types/dataSet';
 import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
