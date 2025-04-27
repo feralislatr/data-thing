@@ -1,5 +1,3 @@
-'use client';
-
 import { DataSetRaw } from '@/types/dataSet';
 import Link from 'next/link';
 import styles from './styles.module.scss';

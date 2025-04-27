@@ -55,7 +55,6 @@ export type Column = {
   flags?: string[];
 };
 
-// delete this later
 export type Data = {
   meta: {
     view: DataView;
