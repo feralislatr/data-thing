@@ -1,0 +1,15 @@
+name: Prevent DB Hibernation
+
+env:
+  ASTRA_DB_APPLICATION_TOKEN: ${{ secrets.ASTRA_DB_APPLICATION_TOKEN }}
+
+on:
+  schedule:
+    - cron: '0 0 */2 * *' # every other day at midnight
+jobs:
+  ping_db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the database
+        run: |
+          curl -sS -L -X GET "https://api.astra.datastax.com/v2/databases" --header "Authorization: Bearer $ASTRA_DB_APPLICATION_TOKEN" --header "Content-Type: application/json"
