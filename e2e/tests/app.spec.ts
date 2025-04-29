@@ -1,4 +1,4 @@
-import { test, expect } from '../baseFixture';
+import { test, expect } from 'next/experimental/testmode/playwright';
 import data from '../data/catalog.json';
 
 test.describe('Home', () => {
@@ -20,7 +20,7 @@ test.describe('Home', () => {
     await page.goto('/');
 
     // Expect subtitle on main page to render
-    await expect(page.locator('text=Data from data.gov')).toBeVisible();
+    await expect(page.locator('text=data from data.gov')).toBeVisible();
     // Expect list of datasets to render, check title of second item
     await expect(
       page.locator('text=Lottery Powerball Winning Numbers: Beginning 2010'),

@@ -8,11 +8,12 @@
     "start": "next start",
     "start:e2e": "NODE_ENV=test next start -p 3030",
     "lint": "next lint",
-    "e2e": "playwright test",
-    "e2e:ui": "playwright test --ui",
+    "e2e": "NODE_ENV=test playwright test",
+    "e2e:ui": "NODE_ENV=test playwright test --ui",
     "e2e:report": "playwright show-report"
   },
   "dependencies": {
+    "@datastax/astra-db-ts": "^2.0.1",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -27,7 +28,7 @@
     "sass": "^1.83.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.50.0",
+    "@playwright/test": "1.50.1",
     "@types/node": "^20.17.16",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
@@ -35,6 +36,6 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "14.1.0",
     "prettier": "3.2.5",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   }
 }

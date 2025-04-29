@@ -4,7 +4,7 @@ export type Resource = {
   describedBy: string;
 };
 
-export type DataSet = {
+export type DataSetRaw = {
   id: string;
   name: string;
   title: string;
@@ -14,19 +14,21 @@ export type DataSet = {
   organization: {
     title: string;
   };
+  extras: { key: string; value: string | string[] }[];
   resources: Resource[];
 };
 
-export type Column = {
-  id: number;
+export type DataSet = {
+  id: string;
   name: string;
-  dataTypeName: string;
+  title: string;
   description: string;
-  fieldName: string;
-  position: number;
-  tableColumnId: number;
-  format: object;
-  flags?: string[];
+  metadata_modified_date: string;
+  maintainer: string;
+  downloadUrl: string;
+  category: string | string[];
+  orgTitle: string;
+  columns?: GridColDef[] | null;
 };
 
 export type DataView = {
@@ -39,6 +41,18 @@ export type DataView = {
   displayType: string;
   dataTypeName: string;
   columns: Column[];
+};
+
+export type Column = {
+  id: number;
+  name: string;
+  dataTypeName: string;
+  description: string;
+  fieldName: string;
+  position: number;
+  tableColumnId: number;
+  format: object;
+  flags?: string[];
 };
 
 export type Data = {

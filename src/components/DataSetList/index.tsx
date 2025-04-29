@@ -1,16 +1,16 @@
-import { DataSet } from '@/types/dataSet';
+import { DataSetRaw } from '@/types/dataSet';
 import Link from 'next/link';
 import styles from './styles.module.scss';
 
 type DataSetListProps = {
-  dataSetList: DataSet[];
+  dataSetList: DataSetRaw[];
 };
 
 /**
  * Render each dataset displaying the title, modified date, maintaining agency, and description.
  * Link to each dataset's Chart page on click, determined by the dataset name.
  */
-const renderDataSet = (dataset: DataSet) => {
+const renderDataSet = (dataset: DataSetRaw) => {
   const date = new Intl.DateTimeFormat('en-US', {
     month: 'long',
     day: '2-digit',

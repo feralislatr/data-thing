@@ -3,16 +3,18 @@ import { useState } from 'react';
 import { Chip, IconButton } from '@mui/material';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import AddIcon from '@mui/icons-material/Add';
+import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 import styles from '@/app/chart/page.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import DisplayChart from '@/components/DisplayChart';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
 import { ViewConfig } from '@/types/viewConfig';
-import { DataView, DataSet } from '@/types/dataSet';
+import { DataSet } from '@/types/dataSet';
 
 const initialViewList: ViewConfig[] = [
   {
     id: '-1',
+    dataSetId: '',
     type: 'table',
     value: '',
     name: 'Table',
@@ -32,26 +34,20 @@ const viewTypes = [
 
 type ChartPageViewProps = {
   dataSetItem: DataSet | undefined;
-  metadata: DataView | undefined;
-  columns: any[];
-  rows: any[];
+  columns: GridColDef[];
+  rows: GridValidRowModel[];
 };
 
 /**
  * Render Chart page where users may view data or create a new chart View
  */
-export default function ChartPageView({
-  dataSetItem,
-  metadata,
-  columns,
-  rows,
-}: ChartPageViewProps) {
+export default function ChartPageView({ dataSetItem, columns, rows }: ChartPageViewProps) {
   const date =
     dataSetItem &&
     new Intl.DateTimeFormat('en-US', {
       month: 'short',
       year: 'numeric',
-    }).format(new Date(dataSetItem.metadata_modified));
+    }).format(new Date(dataSetItem.metadata_modified_date));
 
   const [activeView, setActiveView] = useState<ViewConfig>(initialViewList[0]);
   const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined);
@@ -74,6 +70,7 @@ export default function ChartPageView({
       {
         // TODO: find better id
         id: `${state.length + 1}`,
+        dataSetId: dataSetItem?.id ?? '',
         type: configData.viewType,
         value: configData.displayColumnId,
         params: {
@@ -89,7 +86,7 @@ export default function ChartPageView({
     <main className={styles['chart-container']}>
       <div className="chart-metadata">
         <div className="chart-metadata-tags">
-          <div>{metadata?.category}</div>
+          <div>{dataSetItem?.category}</div>
           <div>{date ?? ''}</div>
         </div>
         <div className="chart-title">
@@ -98,8 +95,8 @@ export default function ChartPageView({
             <DensityMediumIcon />
           </IconButton>
         </div>
-        <h4>{`${dataSetItem?.organization.title} - ${dataSetItem?.maintainer}`}</h4>
-        <p>{metadata?.description ?? 'N/A'}</p>
+        <h4>{`${dataSetItem?.orgTitle} - ${dataSetItem?.maintainer}`}</h4>
+        <p>{dataSetItem?.description ?? 'N/A'}</p>
       </div>
       <div className="view-list">
         {viewList.map(view => (
