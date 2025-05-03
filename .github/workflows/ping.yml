@@ -6,18 +6,16 @@ env:
 on:
   schedule:
     - cron: '0 0 */2 * *' # every other day at midnight
+  workflow_dispatch:
 jobs:
   resume_db:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
-      - name: Install Astra CLI
+      - name: Install Astra CLI and Resume DB
         run: |
+          export TERM=xterm
           curl -Ls https://dtsx.io/get-astra-cli | bash
           source ~/.bash_profile
           astra setup --token $ASTRA_DB_APPLICATION_TOKEN
-      - name: Get DB ID
-        run: |
           DB_ID=$(curl -sS -L -X GET "https://api.astra.datastax.com/v2/databases" --header "Authorization: Bearer $ASTRA_DB_APPLICATION_TOKEN" --header "Content-Type: application/json" | jq '.[0].id')
-      - name: Resume DB
-        run: |
           astra db resume $DB_ID
