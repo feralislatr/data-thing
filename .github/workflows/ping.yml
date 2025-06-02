@@ -2,7 +2,7 @@ name: Prevent DB Hibernation
 
 on:
   schedule:
-    - cron: '0 0 */2 * *' # every other day at midnight
+    - cron: '0 0 * * 0-6/2' # every 2 days of the week, sunday through saturday at midnight
   workflow_dispatch:
 jobs:
   resume_db:
