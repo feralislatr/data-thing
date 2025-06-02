@@ -4,9 +4,9 @@ import { defineConfig, devices } from 'next/experimental/testmode/playwright';
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '.env.local') });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -73,7 +73,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'bun run start:e2e',
+    command: 'bun run dev:e2e',
     url: 'http://127.0.0.1:3030',
     reuseExistingServer: !process.env.CI,
   },
