@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "winning_numbers": "143437556320",
+    "draw_date": "2024-09-07",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "2",
+    "winning_numbers": "011621476005",
+    "draw_date": "2024-09-09",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "3",
+    "winning_numbers": "101255656703",
+    "draw_date": "2024-09-11",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "4",
+    "winning_numbers": "293438485616",
+    "draw_date": "2024-09-14",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "5",
+    "winning_numbers": "080911273117",
+    "draw_date": "2024-09-16",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "6",
+    "winning_numbers": "011122476807",
+    "draw_date": "2024-09-18",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "7",
+    "winning_numbers": "171921374514",
+    "draw_date": "2024-09-21",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "8",
+    "winning_numbers": "152125374519",
+    "draw_date": "2024-09-23",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "9",
+    "winning_numbers": "022645465221",
+    "draw_date": "2024-09-25",
+    "jackpot_amount": 1000000
+  },
+  {
+    "id": "10",
+    "winning_numbers": "031113243922",
+    "draw_date": "2024-09-28",
+    "jackpot_amount": 1000000
+  }
+]
