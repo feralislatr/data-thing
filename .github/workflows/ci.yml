@@ -3,6 +3,7 @@
 
 name: CI
 
+
 on:
   push:
     branches: ['main']
@@ -29,3 +30,6 @@ jobs:
       - run: bun run build
       - run: bunx playwright install --with-deps
       - run: bunx playwright test
+        env:
+          ASTRA_DB_API_ENDPOINT: ${{ secrets.ASTRA_DB_API_ENDPOINT }}
+          ASTRA_DB_API_KEY: ${{ secrets.ASTRA_DB_API_KEY }}

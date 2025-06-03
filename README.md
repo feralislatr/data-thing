@@ -9,7 +9,7 @@ Create charts with data from data.gov
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Additional tools: MUI, Sass, Playwright
+Additional tools: MUI, Sass, Playwright, Astra DB
 
 ## Getting Started
 

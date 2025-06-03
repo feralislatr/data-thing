@@ -9,15 +9,19 @@ import getDataSets from './get-datasets';
  */
 export default async function getOrCreateDataset(datasetName: string) {
   const shortCode = getShortcode(datasetName);
-
-  const datasetList = await db.collection('dataset_catalog');
-
+  const dbDatasetList = db.collection('dataset_catalog');
   // if collection exists, return from db
-  const record = await datasetList.findOne({ name: shortCode });
+  const record = await dbDatasetList.findOne({ name: shortCode });
   if (record) {
     return record as unknown as DataSet;
   } else {
-    const dataSetList = await getDataSets();
+    const datasetList = await getDataSets();
+    const datasetRecord = datasetList.find((dataSet: DataSetRaw) => dataSet.name === datasetName);
+
+    if (!datasetRecord) {
+      throw new Error(`Dataset "${datasetName}" not found in catalog`);
+    }
+
     const {
       id,
       title,
@@ -27,7 +31,7 @@ export default async function getOrCreateDataset(datasetName: string) {
       organization,
       resources,
       extras,
-    }: DataSetRaw = dataSetList.find((dataSet: DataSetRaw) => dataSet.name === datasetName);
+    }: DataSetRaw = datasetRecord;
 
     let tempRecord: DataSet = {
       id,
@@ -41,7 +45,7 @@ export default async function getOrCreateDataset(datasetName: string) {
       downloadUrl: new URL(resources.find(item => item.format === 'CSV')?.url ?? '').href,
       columns: null,
     };
-    await datasetList.insertOne(tempRecord);
+    await dbDatasetList.insertOne(tempRecord);
     return tempRecord;
   }
 }
