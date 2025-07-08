@@ -3,13 +3,15 @@ import { useState } from 'react';
 import { Chip, IconButton } from '@mui/material';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import AddIcon from '@mui/icons-material/Add';
-import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
+import { GridColDef, GridValidRowModel, GridPaginationModel } from '@mui/x-data-grid';
 import styles from '@/app/chart/page.module.scss';
 import ErrorBoundary from '@/providers/ErrorBoundary';
 import DisplayChart from '@/components/DisplayChart';
 import ViewConfigDrawer from '@/components/ViewConfigDrawer';
 import { ViewConfig } from '@/types/viewConfig';
 import { DataSet } from '@/types/dataSet';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const initialViewList: ViewConfig[] = [
   {
@@ -36,12 +38,15 @@ type ChartPageViewProps = {
   dataSetItem: DataSet | undefined;
   columns: GridColDef[];
   rows: GridValidRowModel[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
 };
 
 /**
  * Render Chart page where users may view data or create a new chart View
  */
-export default function ChartPageView({ dataSetItem, columns, rows }: ChartPageViewProps) {
+export default function ChartPageView({ dataSetItem, columns, rows, totalCount, page, pageSize }: ChartPageViewProps) {
   const date =
     dataSetItem &&
     new Intl.DateTimeFormat('en-US', {
@@ -49,9 +54,17 @@ export default function ChartPageView({ dataSetItem, columns, rows }: ChartPageV
       year: 'numeric',
     }).format(new Date(dataSetItem.metadata_modified_date));
 
+    const router = useRouter();
+    const pathname = usePathname();
+
   const [activeView, setActiveView] = useState<ViewConfig>(initialViewList[0]);
   const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined);
   const [viewList, setViewList] = useState<ViewConfig[]>(initialViewList);
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+    // page needs to be 0-based
+    page: page - 1 || 0,
+    pageSize,
+  });
 
   /**
    * Add a new View to the ViewType list
@@ -80,6 +93,12 @@ export default function ChartPageView({ dataSetItem, columns, rows }: ChartPageV
         name: configData.viewName,
       },
     ]);
+  };
+
+  const handlePaginationModelChange = (newModel: GridPaginationModel) => {
+    setPaginationModel(newModel);
+    const url = `${pathname}?page=${(newModel.page + 1).toString()}&pageSize=${newModel.pageSize.toString()}`
+    router.replace(url, { scroll: false });
   };
 
   return (
@@ -124,6 +143,9 @@ export default function ChartPageView({ dataSetItem, columns, rows }: ChartPageV
           filteredColumns={columns}
           filteredRows={rows}
           loading={!Boolean(columns?.length)}
+          totalCount={totalCount}
+          paginationModel={paginationModel}
+          onPaginationModelChange={handlePaginationModelChange}
         />
         <ViewConfigDrawer
           open={Boolean(drawerMode)}

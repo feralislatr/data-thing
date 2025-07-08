@@ -45,26 +45,34 @@ export function formatTabularDataJson(data: Data): {
  * Reference: https://resources.data.gov/resources/dcat-us/
  */
 export function formatTabularDataCsv(data: string) {
-  const rows: GridValidRowModel[] = [];
-  let columns: GridColDef[] = [];
-  const lines = data
-    .split(/\r?\n/)
-    .filter(line => line.trim() !== '')
-    .slice(0, 101); // limit to 100 for now
+  const lines = data.split(/\r?\n/).filter(line => line.trim() !== '');
   const splitAndTrim = (str: string) => str.split(',').map(v => v.trim());
 
-  if (lines.length === 0) return { rows, columns };
+  if (lines.length === 0) return { rows: [], columns: [] };
 
   const headers = splitAndTrim(lines[0]);
-  columns = headers.map(h => ({ field: toSnakeCase(h), headerName: h }));
+  const columns = headers.map(h => ({ field: toSnakeCase(h), headerName: h }));
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = splitAndTrim(lines[i]);
-    const row: Record<string, string> = {};
-    for (let j = 0; j < headers.length; j++) {
-      row[toSnakeCase(headers[j])] = values[j] ?? '';
+  const processBatch = function* (batchSize: number = 100) {
+    for (let i = 1; i < lines.length; i += batchSize) {
+      const batch = lines.slice(i, i + batchSize);
+      const rows: GridValidRowModel[] = [];
+
+      for (const line of batch) {
+        const values = splitAndTrim(line);
+        const row: Record<string, string> = {};
+        for (let j = 0; j < headers.length; j++) {
+          row[toSnakeCase(headers[j])] = values[j] ?? '';
+        }
+        rows.push({ id: i + batch.indexOf(line), ...row });
+      }
+
+      yield rows;
     }
-    rows.push({ id: i, ...row });
   }
-  return { rows, columns };
+
+  return {
+    columns,
+    processBatch,
+  };
 }

@@ -18,7 +18,7 @@ const renderDataSet = (dataset: DataSetRaw) => {
   }).format(new Date(dataset.metadata_modified));
 
   return (
-    <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name}`}>
+    <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name}?page=1&pageSize=100`}>
       <h3>{dataset.title}</h3>
       <div className="dataset-metadata">
         <h4>{`${dataset.organization.title} - ${dataset.maintainer}`}</h4>

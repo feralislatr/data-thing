@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
+import { GridColDef, GridValidRowModel, GridPaginationModel } from '@mui/x-data-grid';
 import { ViewConfig } from '@/types/viewConfig';
 import BarChartView from '@/components/BarChartView';
 import TableView from '@/components/TableView';
@@ -9,6 +9,9 @@ type DisplayChartProps = {
   filteredColumns: GridColDef[];
   filteredRows: GridValidRowModel[];
   loading: boolean;
+  totalCount: number;
+  paginationModel: GridPaginationModel;
+  onPaginationModelChange: (model: GridPaginationModel) => void;
 };
 
 /**
@@ -20,6 +23,9 @@ const DisplayChart = memo(function DisplayChart({
   filteredColumns,
   filteredRows,
   loading,
+  totalCount,
+  paginationModel,
+  onPaginationModelChange,
 }: DisplayChartProps) {
   return {
     bar: (
@@ -36,6 +42,9 @@ const DisplayChart = memo(function DisplayChart({
         columns={filteredColumns}
         rows={filteredRows}
         loading={loading}
+        totalCount={totalCount}
+        paginationModel={paginationModel}
+        onPaginationModelChange={onPaginationModelChange}
       />
     ),
     default: <div>View not supported</div>,
