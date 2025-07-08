@@ -14,5 +14,5 @@ jobs:
           curl -Ls https://dtsx.io/get-astra-cli | bash
           source ~/.bash_profile
           astra setup --token ${{ secrets.ASTRA_DB_APPLICATION_TOKEN }}
-          DB_ID=$(curl -sS -L -X GET "https://api.astra.datastax.com/v2/databases" --header "Authorization: Bearer ${{ secrets.ASTRA_DB_APPLICATION_TOKEN }} --header "Content-Type: application/json" | jq '.[0].id')
+          DB_ID=$(curl -sS -L -X GET "https://api.astra.datastax.com/v2/databases" --header "Authorization: Bearer ${{ secrets.ASTRA_DB_APPLICATION_TOKEN }}" --header "Content-Type: application/json" | jq '.[0].id')
           astra db resume $DB_ID
