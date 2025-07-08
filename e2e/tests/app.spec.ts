@@ -26,8 +26,7 @@ test('render dataSets on the homepage', async ({ page }) => {
 
 test('render chart page with data', async ({ page }) => {
   // Visit the chart page
-  await page.goto('/chart/lottery-powerball-winning-numbers');
-
+  await page.goto('/chart/lottery-powerball-winning-numbers?page=1&pageSize=100');
   // Expect chart page title to render
   await expect(
     page.locator('text=Winning numbers for the Powerball lottery game in New York'),

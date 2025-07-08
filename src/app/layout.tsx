@@ -4,23 +4,25 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import './globals.css';
 import Theme from '@/providers/Theme';
 
-/* istanbul ignore next */
 const barlow = Barlow({
   subsets: ['latin'],
   weight: ['300', '400', '600'],
   variable: '--font-barlow',
+  display: 'swap',
 });
-/* istanbul ignore next */
+
 const barlowcondensed = Barlow_Semi_Condensed({
   subsets: ['latin'],
   weight: ['300', '400', '600'],
   variable: '--font-barlow-condensed',
+  display: 'swap',
 });
-/* istanbul ignore next */
+
 const spacemono = Space_Mono({
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-space-mono',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {

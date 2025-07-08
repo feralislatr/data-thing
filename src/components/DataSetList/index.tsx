@@ -6,6 +6,8 @@ type DataSetListProps = {
   dataSetList: DataSetRaw[];
 };
 
+const DEFAULT_PAGE_SIZE = 100;
+
 /**
  * Render each dataset displaying the title, modified date, maintaining agency, and description.
  * Link to each dataset's Chart page on click, determined by the dataset name.
@@ -18,7 +20,7 @@ const renderDataSet = (dataset: DataSetRaw) => {
   }).format(new Date(dataset.metadata_modified));
 
   return (
-    <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name}`}>
+    <Link key={dataset.name} className="dataset" href={`/chart/${dataset.name}?page=1&pageSize=${DEFAULT_PAGE_SIZE}`}>
       <h3>{dataset.title}</h3>
       <div className="dataset-metadata">
         <h4>{`${dataset.organization.title} - ${dataset.maintainer}`}</h4>
