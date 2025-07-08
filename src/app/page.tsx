@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styles from './page.module.scss';
 import DataSetList from '@/components/DataSetList';
 import getDataSets from '@/utils/get-datasets';
+import Link from 'next/link';
 
 export default async function Home() {
   const dataSetList = await getDataSets();
@@ -9,7 +10,9 @@ export default async function Home() {
     <main className={styles.main}>
       <section className="title-panel">
         <div className="title">
-          <Image src="/logo.png" alt="data thing" width={400} height={100} priority />
+          <Link href="/">
+            <Image src="/logo.png" alt="data thing" width={400} height={100} priority />
+          </Link>
           <p>
             another chart app project
             <br />
