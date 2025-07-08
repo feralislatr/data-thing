@@ -17,7 +17,6 @@ export default async function getData(name: string, url: string | null, page: nu
     let cursor = null;
     const collection = db.collection(shortCode);
     const totalCount = await collection.estimatedDocumentCount();
-
     if (totalCount <= page * pageSize) {
       cursor = await collection.find({});
     } else {
@@ -47,7 +46,7 @@ export default async function getData(name: string, url: string | null, page: nu
     // update dataset record with column info
     const datasetList = await db.collection('dataset_catalog');
     const record = await datasetList.findOne({ name: shortCode });
-    if (record && record.columns.length) {
+    if (record && !record.columns) {
       await datasetList.updateOne({ name: shortCode }, { $set: { columns } });
     }
 
