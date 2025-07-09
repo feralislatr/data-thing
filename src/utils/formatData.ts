@@ -1,5 +1,5 @@
-import { toSnakeCase } from '@/utils/string-util';
-import { Data } from '@/types/dataSet';
+import { getShortcode, toSnakeCase } from '@/utils/string-util';
+import { Data, DataSet, DataSetRaw } from '@/types/dataSet';
 import { GridColDef, GridValidRowModel } from '@mui/x-data-grid';
 
 /**
@@ -44,7 +44,11 @@ export function formatTabularDataJson(data: Data): {
  * Transform CSV data.gov distribution download into proper format for MUI DataGrid component.
  * Reference: https://resources.data.gov/resources/dcat-us/
  */
-export function formatTabularDataCsv(data: string) {
+export function formatTabularDataCsv(data: string): {
+  columns: GridColDef[];
+  processBatch?: () => Generator<GridValidRowModel[], void, unknown>;
+  rows?: GridValidRowModel[];
+} {
   const lines = data.split(/\r?\n/).filter(line => line.trim() !== '');
   const splitAndTrim = (str: string) => str.split(',').map(v => v.trim());
 
@@ -74,5 +78,37 @@ export function formatTabularDataCsv(data: string) {
   return {
     columns,
     processBatch,
+  };
+}
+
+/**
+ * Format data.gov dataset for db
+ * @param dataset - DataSetRaw
+ * @returns DataSet
+ */
+export function formatDataset(dataset: DataSetRaw): DataSet {
+  const {
+    id,
+    name,
+    title,
+    notes,
+    metadata_modified,
+    maintainer,
+    organization,
+    resources,
+    extras,
+  }: DataSetRaw = dataset;
+
+  return {
+    id,
+    name: getShortcode(name),
+    title,
+    description: notes,
+    metadata_modified_date: metadata_modified,
+    maintainer,
+    orgTitle: organization?.title ?? '',
+    category: extras.find(item => item.key === 'theme')?.value ?? '',
+    downloadUrl: new URL(resources.find(item => item.format === 'CSV')?.url ?? '').href,
+    columns: null,
   };
 }

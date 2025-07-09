@@ -1,7 +1,7 @@
 'use server';
 
 import db from '@/db';
-import { formatTabularDataCsv } from './formatTabularData';
+import { formatTabularDataCsv } from './formatData';
 import { getShortcode } from './string-util';
 import { GridValidRowModel } from '@mui/x-data-grid';
 
