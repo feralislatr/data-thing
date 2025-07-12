@@ -1,35 +1,40 @@
-'use server';
-import db from '@/db';
-import { DataSetRaw, Resource } from '@/types/dataSet';
-import { formatDataset } from '@/utils/formatData';
+'use server'
+
+import db from '@/db'
+
+import { DataSetRaw, Resource } from '@/types/dataSet'
+
+import { formatDataset } from '@/utils/formatData'
 
 // filter for CSV Datasets
 function filterCsvResource(dataSet: DataSetRaw) {
-  return dataSet?.resources?.find((item: Resource) => item.format === 'CSV');
+  return dataSet?.resources?.find((item: Resource) => item.format === 'CSV')
 }
 
 /** Get catalog results list, filtering for CSV datasets */
 export default async function getDataSets() {
-  const url = 'https://catalog.data.gov/api/3/action/package_search';
+  const url = 'https://catalog.data.gov/api/3/action/package_search'
 
   try {
     // get datasets from data.gov
-    const response = await fetch(url);
-    const data = await response.json();
-    const filteredResults = data.result.results.filter(filterCsvResource).map(formatDataset);
+    const response = await fetch(url)
+    const data = await response.json()
+    const filteredResults = data.result.results
+      .filter(filterCsvResource)
+      .map((item: DataSetRaw) => formatDataset(item))
 
     // get datasets from db
-    const cursor = db.collection('dataset_catalog').find({});
-    const dbDatasetList = await cursor.toArray();
+    const cursor = db.collection('dataset_catalog').find({})
+    const dbDatasetList = await cursor.toArray()
 
     // combine results and filter out duplicates
-    const combinedList = [...filteredResults, ...dbDatasetList].filter((dataset, i, self) =>
-      i === self.findIndex((item) => item.id === dataset.id)
-    );
+    const combinedList = [...filteredResults, ...dbDatasetList].filter(
+      (dataset, i, self) => i === self.findIndex(item => item.id === dataset.id),
+    )
 
-    return combinedList;
+    return combinedList
   } catch (error) {
-    console.log(error);
-    return [];
+    console.log(error)
+    return []
   }
 }

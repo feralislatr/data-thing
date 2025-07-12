@@ -1,11 +1,14 @@
-import Image from 'next/image';
-import styles from './page.module.scss';
-import DataSetList from '@/components/DataSetList';
-import getDataSets from '@/utils/get-datasets';
-import Link from 'next/link';
+import Image from 'next/image'
+import Link from 'next/link'
+
+import DataSetList from '@/components/DataSetList'
+
+import getDataSets from '@/utils/get-datasets'
+
+import styles from './page.module.scss'
 
 export default async function Home() {
-  const dataSetList = await getDataSets();
+  const dataSetList = await getDataSets()
   return (
     <main className={styles.main}>
       <section className="title-panel">
@@ -25,5 +28,5 @@ export default async function Home() {
         <DataSetList dataSetList={dataSetList} />
       </section>
     </main>
-  );
+  )
 }

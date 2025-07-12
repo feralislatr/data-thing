@@ -1,10 +1,13 @@
-'use client';
-import { useMemo } from 'react';
-import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
-import colors from './theme-colors';
+'use client'
+
+import { useMemo } from 'react'
+
+import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles'
+
+import colors from './theme-colors'
 
 const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => {
-  const { children, mode } = props;
+  const { children, mode } = props
   const theme: ThemeOptions = useMemo(
     () =>
       createTheme({
@@ -231,8 +234,8 @@ const Theme = (props: { children: React.ReactNode; mode: 'light' | 'dark' }) => 
         },
       }),
     [mode],
-  );
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-};
+  )
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+}
 
-export default Theme;
+export default Theme

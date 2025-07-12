@@ -1,26 +1,31 @@
-import { DataGrid, GridColDef, GridValidRowModel, GridPaginationModel } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  type GridColDef,
+  type GridPaginationModel,
+  type GridValidRowModel,
+} from '@mui/x-data-grid'
 
 type TableViewProps = {
-  viewId: string;
-  columns: GridColDef[];
-  rows: GridValidRowModel[];
-  loading: boolean;
-  totalCount: number;
-  onPaginationModelChange?: (model: GridPaginationModel) => void;
-  paginationModel?: GridPaginationModel;
-};
+  viewId: string
+  columns: GridColDef[]
+  rows: GridValidRowModel[]
+  loading: boolean
+  totalCount: number
+  onPaginationModelChange?: (model: GridPaginationModel) => void
+  paginationModel?: GridPaginationModel
+}
 
 /**
  * Render tabular View for dataset
  */
-export default function TableView({ 
-  viewId, 
-  columns, 
-  rows, 
-  loading, 
+export default function TableView({
+  viewId,
+  columns,
+  rows,
+  loading,
   totalCount,
   onPaginationModelChange,
-  paginationModel = { page: 0, pageSize: 100 }
+  paginationModel = { page: 0, pageSize: 100 },
 }: TableViewProps) {
   return (
     <DataGrid
@@ -40,5 +45,5 @@ export default function TableView({
         },
       }}
     />
-  );
+  )
 }

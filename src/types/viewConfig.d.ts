@@ -1,13 +1,13 @@
-import { GridColDef } from '@mui/x-data-grid';
+import type { GridColDef } from '@mui/x-data-grid'
 
 export type ViewConfig = {
-  id: string;
-  dataSetId: string;
-  type: string;
-  value: string;
+  id: string
+  dataSetId: string
+  type: string
+  value: string
   params?: {
-    selectedColumn?: GridColDef;
-    yAxisUnit?: string;
-  };
-  name: string;
-};
+    selectedColumn?: GridColDef
+    yAxisUnit?: string
+  }
+  name: string
+}
