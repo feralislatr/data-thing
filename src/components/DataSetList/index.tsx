@@ -15,7 +15,6 @@ const DEFAULT_PAGE_SIZE = 100
  * Link to each dataset's Chart page on click, determined by the dataset name.
  */
 const renderDataSet = (dataset: DataSet) => {
-  console.log(dataset)
   const date = new Intl.DateTimeFormat('en-US', {
     month: 'long',
     day: '2-digit',
