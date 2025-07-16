@@ -32,7 +32,7 @@ const renderDataSet = (dataset: DataSet) => {
         <h4>{`${dataset.orgTitle} - ${dataset.maintainer}`}</h4>
         <h4>{date}</h4>
       </div>
-      <p>{dataset.description}</p>
+      <p>{dataset.description.replace(/<[^>]*>/g, '')}</p>
     </Link>
   )
 }

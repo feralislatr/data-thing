@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-
+import DOMPurify from 'dompurify';
 import AddIcon from '@mui/icons-material/Add'
 import DensityMediumIcon from '@mui/icons-material/DensityMedium'
 import { Chip, IconButton } from '@mui/material'
@@ -129,7 +129,11 @@ export default function ChartPageView({
           </IconButton>
         </div>
         <h4>{`${dataSetItem?.orgTitle} - ${dataSetItem?.maintainer}`}</h4>
-        <p>{dataSetItem?.description ?? 'N/A'}</p>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(dataSetItem?.description ?? ''),
+          }}
+        />
       </div>
       <div className="view-list">
         {viewList.map(view => (
