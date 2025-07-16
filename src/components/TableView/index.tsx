@@ -31,7 +31,7 @@ export default function TableView({
     <DataGrid
       key={`data-grid-${viewId}`}
       rows={rows}
-      columns={columns}
+      columns={columns.map(col => ({ ...col, flex: 1, minWidth: 100 }))}
       loading={loading}
       rowCount={totalCount}
       paginationMode="server"
