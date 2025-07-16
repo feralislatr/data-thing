@@ -18,8 +18,10 @@ const handlers = [
   http.post(`${dbUrl}*`, async ({ request }) => {
     const res = await request.json()
     const body = JSON.stringify(res)
-    if (request.url.includes('lottery_powerball_winning_numbers')) {
-      // data ends up returning as json anyway
+    // find dataset_catalog collection with empty body
+    if (request.url.includes('dataset_catalog')) {
+      return HttpResponse.text(JSON.stringify([astra_catalog[1]]))
+    } else if (request.url.includes('lottery_powerball_winning_numbers')) {
       return HttpResponse.json({
         data: {
           documents: lottery_powerball_data,
