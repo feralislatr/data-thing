@@ -20,7 +20,16 @@ const handlers = [
     const body = JSON.stringify(res)
     // find dataset_catalog collection with empty body
     if (request.url.includes('dataset_catalog')) {
-      return HttpResponse.text(JSON.stringify([astra_catalog[1]]))
+      // find lottery_powerball_winning_numbers in catalog
+      if (typeof body === 'string' && body.includes('findOne')) {
+        return HttpResponse.json({
+          data: {
+            document: astra_catalog[0],
+          },
+        })
+      } else {
+        return HttpResponse.text(JSON.stringify([astra_catalog[0]]))
+      }
     } else if (request.url.includes('lottery_powerball_winning_numbers')) {
       return HttpResponse.json({
         data: {
@@ -77,29 +86,6 @@ const handlers = [
       return HttpResponse.json({
         status: {
           ok: 1,
-        },
-      })
-    }
-    // find lottery_powerball_winning_numbers in catalog
-    else if (typeof body === 'string' && body.includes('findOne')) {
-      return HttpResponse.json({
-        data: {
-          document: {
-            id: '12345',
-            name: 'lottery-powerball-winning-numb',
-            title: 'Lottery Powerball Winning Numbers',
-            description: 'Winning numbers for the Powerball lottery game in New York.',
-            metadata_modified_date: '2024-06-21T13:45:01.436784',
-            maintainer: 'Open Data NY',
-            orgTitle: 'State of New York',
-            category: 'Government & Finance',
-            downloadUrl: 'https://data.ny.gov/api/views/d6yy-54nr/rows.csv?accessType=DOWNLOAD',
-            columns: [
-              { field: 'winning_numbers', headerName: 'Winning Numbers' },
-              { field: 'draw_date', headerName: 'Draw Date' },
-              { field: 'jackpot_amount', headerName: 'Jackpot Amount' },
-            ],
-          },
         },
       })
     } else if (typeof body === 'string' && body.includes('insertOne')) {

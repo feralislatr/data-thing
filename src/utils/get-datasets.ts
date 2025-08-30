@@ -12,6 +12,7 @@ function filterCsvResource(dataSet: DataSetRaw) {
 }
 
 /** Get catalog results list, filtering for CSV datasets */
+// need option to check db only
 export default async function getDataSets() {
   const url = 'https://catalog.data.gov/api/3/action/package_search'
 
@@ -19,15 +20,13 @@ export default async function getDataSets() {
     // get datasets from data.gov
     const response = await fetch(url)
     const data = await response.json()
-    const filteredResults = data.result.results
-      .filter(filterCsvResource)
-      .map((item: DataSetRaw) => formatDataset(item))
+    const filteredResults = data.result.results.filter(filterCsvResource).map(formatDataset)
 
     // get datasets from db
     const cursor = db.collection('dataset_catalog').find({})
     const dbDatasetList = await cursor.toArray()
 
-    // combine results and filter out duplicates
+    // combine results and filter out duplicates, prefer db results
     const combinedList = [...filteredResults, ...dbDatasetList].filter(
       (dataset, i, self) => i === self.findIndex(item => item.id === dataset.id),
     )

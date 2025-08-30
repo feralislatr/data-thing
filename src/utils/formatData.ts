@@ -109,8 +109,8 @@ export function formatDataset(dataset: DataSetRaw): DataSet {
     metadata_modified_date: metadata_modified,
     maintainer,
     orgTitle: organization?.title ?? '',
-    category: extras.find(item => item.key === 'theme')?.value ?? '',
-    downloadUrl: new URL(resources.find(item => item.format === 'CSV')?.url ?? '').href,
+    category: extras?.find(item => item.key === 'theme')?.value ?? '',
+    downloadUrl: new URL(resources?.find(item => item.format === 'CSV')?.url ?? '').href,
     columns: null,
   }
 }
