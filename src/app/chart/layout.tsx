@@ -1,11 +1,12 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import styles from './page.module.scss';
+import Image from 'next/image'
+import Link from 'next/link'
+
+import styles from './page.module.scss'
 
 export default function ChartLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <div>
@@ -16,5 +17,5 @@ export default function ChartLayout({
       </header>
       {children}
     </div>
-  );
+  )
 }

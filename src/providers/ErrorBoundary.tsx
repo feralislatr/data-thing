@@ -1,23 +1,23 @@
-import React, { Component, ReactNode, ErrorInfo } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from 'react'
 
 type Props = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 type State = {
-  hasError: boolean;
-};
+  hasError: boolean
+}
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
+    super(props)
+    this.state = { hasError: false }
   }
   static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
+    return { hasError: true }
   }
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.log({ error, errorInfo });
+    console.log({ error, errorInfo })
   }
   render() {
     if (this.state.hasError) {
@@ -26,10 +26,10 @@ class ErrorBoundary extends Component<Props, State> {
           <h2>Error rendering chart</h2>
           <p>Please choose a different view.</p>
         </div>
-      );
+      )
     }
-    return this.props.children;
+    return this.props.children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

@@ -1,4 +1,4 @@
-import { LineChart } from '@mui/x-charts/LineChart';
+import { LineChart } from '@mui/x-charts/LineChart'
 
 export default function LineChartView({}) {
   return (
@@ -12,5 +12,5 @@ export default function LineChartView({}) {
       width={800}
       height={600}
     />
-  );
+  )
 }

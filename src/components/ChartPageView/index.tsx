@@ -1,17 +1,24 @@
-'use client';
-import { useState } from 'react';
-import { Chip, IconButton } from '@mui/material';
-import DensityMediumIcon from '@mui/icons-material/DensityMedium';
-import AddIcon from '@mui/icons-material/Add';
-import { GridColDef, GridValidRowModel, GridPaginationModel } from '@mui/x-data-grid';
-import styles from '@/app/chart/page.module.scss';
-import ErrorBoundary from '@/providers/ErrorBoundary';
-import DisplayChart from '@/components/DisplayChart';
-import ViewConfigDrawer from '@/components/ViewConfigDrawer';
-import { ViewConfig } from '@/types/viewConfig';
-import { DataSet } from '@/types/dataSet';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+'use client'
+
+import { useState } from 'react'
+
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import DOMPurify from 'dompurify';
+import AddIcon from '@mui/icons-material/Add'
+import DensityMediumIcon from '@mui/icons-material/DensityMedium'
+import { Chip, IconButton } from '@mui/material'
+import type { GridColDef, GridPaginationModel, GridValidRowModel } from '@mui/x-data-grid'
+
+import { DataSet } from '@/types/dataSet'
+import { ViewConfig } from '@/types/viewConfig'
+
+import ErrorBoundary from '@/providers/ErrorBoundary'
+
+import DisplayChart from '@/components/DisplayChart'
+import ViewConfigDrawer from '@/components/ViewConfigDrawer'
+
+import styles from '@/app/chart/page.module.scss'
 
 const initialViewList: ViewConfig[] = [
   {
@@ -21,7 +28,7 @@ const initialViewList: ViewConfig[] = [
     value: '',
     name: 'Table',
   },
-];
+]
 
 const viewTypes = [
   {
@@ -32,50 +39,57 @@ const viewTypes = [
     type: 'bar',
     name: 'Bar Chart',
   },
-];
+]
 
 type ChartPageViewProps = {
-  dataSetItem: DataSet | undefined;
-  columns: GridColDef[];
-  rows: GridValidRowModel[];
-  totalCount: number;
-  page: number;
-  pageSize: number;
-};
+  dataSetItem: DataSet | undefined
+  columns: GridColDef[]
+  rows: GridValidRowModel[]
+  totalCount: number
+  page: number
+  pageSize: number
+}
 
 /**
  * Render Chart page where users may view data or create a new chart View
  */
-export default function ChartPageView({ dataSetItem, columns, rows, totalCount, page, pageSize }: ChartPageViewProps) {
+export default function ChartPageView({
+  dataSetItem,
+  columns,
+  rows,
+  totalCount,
+  page,
+  pageSize,
+}: ChartPageViewProps) {
   const date =
     dataSetItem &&
     new Intl.DateTimeFormat('en-US', {
       month: 'short',
       year: 'numeric',
-    }).format(new Date(dataSetItem.metadata_modified_date));
+    }).format(new Date(dataSetItem.metadata_modified_date))
 
-    const router = useRouter();
-    const pathname = usePathname();
+  const router = useRouter()
+  const pathname = usePathname()
 
-  const [activeView, setActiveView] = useState<ViewConfig>(initialViewList[0]);
-  const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined);
-  const [viewList, setViewList] = useState<ViewConfig[]>(initialViewList);
+  const [activeView, setActiveView] = useState<ViewConfig>(initialViewList[0])
+  const [drawerMode, setDrawerMode] = useState<'new' | 'view' | undefined>(undefined)
+  const [viewList, setViewList] = useState<ViewConfig[]>(initialViewList)
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     // page needs to be 0-based
     page: page - 1 || 0,
     pageSize,
-  });
+  })
 
   /**
    * Add a new View to the ViewType list
    */
   const addNewView = (configData: {
-    viewName: string;
-    viewType: string;
-    displayColumnId: string;
-    yAxisUnit: string;
+    viewName: string
+    viewType: string
+    displayColumnId: string
+    yAxisUnit: string
   }) => {
-    const selectedColumn = columns.find(col => col.field === configData.displayColumnId);
+    const selectedColumn = columns.find(col => col.field === configData.displayColumnId)
 
     // formats into ViewConfig
     setViewList(state => [
@@ -92,14 +106,14 @@ export default function ChartPageView({ dataSetItem, columns, rows, totalCount, 
         },
         name: configData.viewName,
       },
-    ]);
-  };
+    ])
+  }
 
   const handlePaginationModelChange = (newModel: GridPaginationModel) => {
-    setPaginationModel(newModel);
+    setPaginationModel(newModel)
     const url = `${pathname}?page=${(newModel.page + 1).toString()}&pageSize=${newModel.pageSize.toString()}`
-    router.replace(url, { scroll: false });
-  };
+    router.replace(url, { scroll: false })
+  }
 
   return (
     <main className={styles['chart-container']}>
@@ -115,7 +129,11 @@ export default function ChartPageView({ dataSetItem, columns, rows, totalCount, 
           </IconButton>
         </div>
         <h4>{`${dataSetItem?.orgTitle} - ${dataSetItem?.maintainer}`}</h4>
-        <p>{dataSetItem?.description ?? 'N/A'}</p>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(dataSetItem?.description ?? ''),
+          }}
+        />
       </div>
       <div className="view-list">
         {viewList.map(view => (
@@ -124,7 +142,7 @@ export default function ChartPageView({ dataSetItem, columns, rows, totalCount, 
             variant={view.id === activeView.id ? 'filled' : 'outlined'}
             color="primary"
             onClick={() => {
-              setActiveView(view);
+              setActiveView(view)
             }}
             disabled={view.id === activeView.id}
             label={view.name}
@@ -158,5 +176,5 @@ export default function ChartPageView({ dataSetItem, columns, rows, totalCount, 
         />
       </ErrorBoundary>
     </main>
-  );
+  )
 }

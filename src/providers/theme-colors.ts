@@ -10,6 +10,6 @@ const colors = {
   mintLight: '#66d8c0',
   mintDark: '#12906d',
   white: '#FFFFFF',
-};
+}
 
-export default colors;
+export default colors

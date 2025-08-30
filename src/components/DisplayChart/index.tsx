@@ -1,18 +1,21 @@
-import { memo } from 'react';
-import { GridColDef, GridValidRowModel, GridPaginationModel } from '@mui/x-data-grid';
-import { ViewConfig } from '@/types/viewConfig';
-import BarChartView from '@/components/BarChartView';
-import TableView from '@/components/TableView';
+import { memo } from 'react'
+
+import type { GridColDef, GridPaginationModel, GridValidRowModel } from '@mui/x-data-grid'
+
+import { ViewConfig } from '@/types/viewConfig'
+
+import BarChartView from '@/components/BarChartView'
+import TableView from '@/components/TableView'
 
 type DisplayChartProps = {
-  activeView: ViewConfig;
-  filteredColumns: GridColDef[];
-  filteredRows: GridValidRowModel[];
-  loading: boolean;
-  totalCount: number;
-  paginationModel: GridPaginationModel;
-  onPaginationModelChange: (model: GridPaginationModel) => void;
-};
+  activeView: ViewConfig
+  filteredColumns: GridColDef[]
+  filteredRows: GridValidRowModel[]
+  loading: boolean
+  totalCount: number
+  paginationModel: GridPaginationModel
+  onPaginationModelChange: (model: GridPaginationModel) => void
+}
 
 /**
  * Render active Chart
@@ -48,7 +51,7 @@ const DisplayChart = memo(function DisplayChart({
       />
     ),
     default: <div>View not supported</div>,
-  }[activeView.type];
-});
+  }[activeView.type]
+})
 
-export default DisplayChart;
+export default DisplayChart

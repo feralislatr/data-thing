@@ -1,5 +1,6 @@
-import { Skeleton } from '@mui/material';
-import styles from '../page.module.scss';
+import { Skeleton } from '@mui/material'
+
+import styles from '../page.module.scss'
 
 export default function Loading() {
   return (
@@ -15,5 +16,5 @@ export default function Loading() {
       <br />
       <Skeleton variant="rounded" height="40rem" />
     </div>
-  );
+  )
 }

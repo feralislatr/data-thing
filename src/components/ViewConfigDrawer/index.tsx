@@ -1,16 +1,18 @@
-import { ViewConfig } from '@/types/viewConfig';
+import { useEffect, useState } from 'react'
+
 import {
-  Drawer,
   Box,
-  TextField,
+  Button,
+  Drawer,
+  FormControl,
+  InputLabel,
   MenuItem,
   Select,
-  Button,
-  InputLabel,
-  FormControl,
-} from '@mui/material';
-import { GridColDef } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react';
+  TextField,
+} from '@mui/material'
+import type { GridColDef } from '@mui/x-data-grid'
+
+import { ViewConfig } from '@/types/viewConfig'
 
 /**
  * Render Drawer component to either view or create a new Chart View.
@@ -26,68 +28,68 @@ export default function ViewConfigDrawer({
   onAddNewView,
   mode,
 }: {
-  open: boolean;
-  onClose: () => void;
-  columnOptions: GridColDef[];
-  viewTypes: { type: string; name: string }[];
-  viewConfig: ViewConfig | null;
+  open: boolean
+  onClose: () => void
+  columnOptions: GridColDef[]
+  viewTypes: { type: string; name: string }[]
+  viewConfig: ViewConfig | null
   onAddNewView: ({
     viewName,
     viewType,
     displayColumnId,
     yAxisUnit,
   }: {
-    viewName: string;
-    viewType: string;
-    displayColumnId: string;
-    yAxisUnit: string;
-  }) => void;
-  mode: 'new' | 'view' | undefined;
+    viewName: string
+    viewType: string
+    displayColumnId: string
+    yAxisUnit: string
+  }) => void
+  mode: 'new' | 'view' | undefined
 }) {
   // populate fields with current data if in view mode
   useEffect(() => {
     if (mode === 'view') {
       if (viewConfig) {
-        setViewName(viewConfig.name);
-        setViewType(viewConfig.type);
-        setdisplayColumnId(viewConfig.value);
+        setViewName(viewConfig.name)
+        setViewType(viewConfig.type)
+        setdisplayColumnId(viewConfig.value)
         if (viewConfig?.params?.yAxisUnit) {
-          setYAxisUnit(viewConfig.params.yAxisUnit);
+          setYAxisUnit(viewConfig.params.yAxisUnit)
         }
       }
     } else {
-      setViewName('');
-      setViewType('');
-      setdisplayColumnId('');
-      setYAxisUnit('');
+      setViewName('')
+      setViewType('')
+      setdisplayColumnId('')
+      setYAxisUnit('')
     }
-  }, [mode, viewConfig]);
+  }, [mode, viewConfig])
 
-  const [viewName, setViewName] = useState('');
-  const [viewType, setViewType] = useState('');
-  const [displayColumnId, setdisplayColumnId] = useState('');
-  const [yAxisUnit, setYAxisUnit] = useState('');
+  const [viewName, setViewName] = useState('')
+  const [viewType, setViewType] = useState('')
+  const [displayColumnId, setdisplayColumnId] = useState('')
+  const [yAxisUnit, setYAxisUnit] = useState('')
 
   const handleSubmit = () => {
-    onAddNewView({ viewName, viewType, displayColumnId, yAxisUnit });
-    onClose();
-    setViewName('');
-    setViewType('');
-    setdisplayColumnId('');
-    setYAxisUnit('');
-  };
+    onAddNewView({ viewName, viewType, displayColumnId, yAxisUnit })
+    onClose()
+    setViewName('')
+    setViewType('')
+    setdisplayColumnId('')
+    setYAxisUnit('')
+  }
 
   const formatViewTypes = viewTypes.map(item => (
     <MenuItem key={`view-type-${item.type}`} value={item.type}>
       {item.name}
     </MenuItem>
-  ));
+  ))
 
   const formatdisplayColumnIds = columnOptions.map(item => (
     <MenuItem key={`column-type-${item.field}`} value={item.field}>
       {item.headerName}
     </MenuItem>
-  ));
+  ))
 
   /** Render empty fields for creating a new View */
   const renderEditMode = () => {
@@ -151,8 +153,8 @@ export default function ViewConfigDrawer({
           </Button>
         )}
       </>
-    );
-  };
+    )
+  }
 
   /** Render disabled fields for viewing current config only */
   const renderViewMode = () => {
@@ -213,8 +215,8 @@ export default function ViewConfigDrawer({
           </>
         )}
       </>
-    );
-  };
+    )
+  }
 
   return (
     <Drawer anchor={'right'} open={open} onClose={onClose}>
@@ -229,5 +231,5 @@ export default function ViewConfigDrawer({
         {mode === 'view' ? renderViewMode() : renderEditMode()}
       </Box>
     </Drawer>
-  );
+  )
 }
