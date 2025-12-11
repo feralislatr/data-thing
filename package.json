@@ -24,9 +24,9 @@
     "@mui/x-charts": "^7.24.1",
     "@mui/x-data-grid": "^7.24.1",
     "dompurify": "^3.2.6",
-    "next": "^15",
-    "react": "^19.1.0",
-    "react-dom": "^19",
+    "next": "15.3.6",
+    "react": "19.1.2",
+    "react-dom": "19.1.2",
     "sass": "^1.83.4"
   },
   "devDependencies": {
