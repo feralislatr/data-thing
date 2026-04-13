@@ -26,12 +26,17 @@ export default async function getDataSets() {
     const cursor = db.collection('dataset_catalog').find({})
     const dbDatasetList = await cursor.toArray()
 
-    // combine results and filter out duplicates, prefer db results
-    const combinedList = [...filteredResults, ...dbDatasetList].filter(
-      (dataset, i, self) => i === self.findIndex(item => item.id === dataset.id),
+    // filter out existing datasets from data.gov results
+    const newDatasets = filteredResults.filter(
+      (dataset: DataSetRaw) => !dbDatasetList.map(dataset => dataset.id).includes(dataset.id),
     )
 
-    return combinedList
+    // update db with any new datasets from data.gov
+    if (newDatasets.length > 0) {
+      await db.collection('dataset_catalog').insertMany(newDatasets)
+    }
+
+    return [...newDatasets, ...dbDatasetList]
   } catch (error) {
     console.log(error)
     return []
